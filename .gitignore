@@ -1,2 +1,61 @@
-# Ignore build directory
+# Ignore build directories
 build/
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+
+# Qt Creator specific files
+*.autosave
+*.creator
+*.creator.user.*
+*.creator.user
+*.qmlproject.user.*
+
+# Compiled object files
+*.o
+*.obj
+*.lo
+*.la
+*.al
+*.libs
+*.dll
+*.dylib
+*.so
+*.a
+*.lib
+
+# Compiler generated files
+*.idb
+*.pdb
+*.ilk
+*.dSYM/
+*.ncb
+*.sdf
+*.pbi
+*.pbl
+
+# Qt generated files
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+
+# Qt debug files
+*.gcno
+*.gcda
+*.gcov
+
+# Generated files for translations
+*.qm
+
+# QML cache
+.qmldir
+.qmlc
+.jsc
+
+# Logs
+*.log
+*.cache
+*.diff
+*.patch
