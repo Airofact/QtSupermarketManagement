@@ -25,7 +25,7 @@ public:
     CargoType(const CargoType &goods);
     CargoType(const QByteArray& json);
     CargoType();
-    CargoType fromFile(const QString& path);
+    static CargoType fromFile(const QString& path);
 	// 获得商品名称 例getName();
     QString getName() const;
 	// 获得商品价格 例getPrice();
