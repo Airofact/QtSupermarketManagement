@@ -38,3 +38,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     QtSupermarketManagement.pro.user
+
+RESOURCES += \
+    pics.qrc

@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>pics/left_eye_close.png</file>
+        <file>pics/left_eye_open.png</file>
+        <file>pics/ph1.png</file>
+        <file>pics/ph2.png</file>
+        <file>pics/ph3.png</file>
+        <file>pics/ph4.png</file>
+        <file>pics/ph5.png</file>
+        <file>pics/right_eye_close.png</file>
+        <file>pics/right_eye_open.png</file>
+    </qresource>
+</RCC>

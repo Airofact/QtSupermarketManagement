@@ -19,14 +19,14 @@ Login::Login(QWidget *parent)
 
 
     //登陆界面的图片
-    pixl=QPixmap(".\\pics\\睁眼登录左.png");
+    pixl=QPixmap(":/pics/left_eye_open.png");
     ui->loginleft->setPixmap(pixl);
 
-    pixr=QPixmap(".\\pics\\睁眼登录右.png");
+    pixr=QPixmap(":/pics/right_eye_open.png");
     ui->loginright->setPixmap(pixr);
 
-    pixl1=QPixmap(".\\pics\\闭眼登录左.png");
-    pixr2=QPixmap(".\\pics\\闭眼登录右.png");
+    pixl1=QPixmap(":/pics/left_eye_close.png");
+    pixr2=QPixmap(":/pics/right_eye_close.png");
 
 
     //商品
