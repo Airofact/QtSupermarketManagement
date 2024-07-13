@@ -33,9 +33,5 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-SUBDIRS += \
-    ../QtSupermarketManagement-master/QtSupermarketManagement.pro \
-    ../QtSupermarketManagement-master/super.pro
-
 DISTFILES += \
     QtSupermarketManagement.pro.user
