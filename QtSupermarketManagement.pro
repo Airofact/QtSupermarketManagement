@@ -13,6 +13,7 @@ SOURCES += \
     Inventory.cpp \
     SerializableQObject.cpp \
     Trade.cpp \
+    editdialog.cpp \
     login.cpp \
     main.cpp
 
@@ -22,10 +23,12 @@ HEADERS += \
     Inventory.h \
     SerializableQObject.h \
     Trade.h \
+    editdialog.h \
     login.h \
     member.h
 
 FORMS += \
+    editdialog.ui \
     login.ui
 
 # Default rules for deployment.

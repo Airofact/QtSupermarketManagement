@@ -8,7 +8,7 @@
 #include <memory>
 #include <QFileDialog>
 #include <QMouseEvent>
-#include <QStandardItemModel>
+#include "editdialog.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -22,8 +22,6 @@ class Login : public QMainWindow
     Q_OBJECT
 
 public:
-    QStandardItemModel good;
-    QStandardItemModel trade;
     Login(QWidget *parent = nullptr);
     ~Login();
 
@@ -53,18 +51,18 @@ private slots:
 
     void on_confirm_released();
 
-   bool eventFilter(QObject *obj, QEvent *event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
+    void on_create_released();
 
-   void on_create_clicked();
+    void on_editmessage_released();
 
-   private:
+private:
     Ui::Login *ui;
     QPixmap pixl;
     QPixmap pixr;
     QPixmap pixl1;
     QPixmap pixr2;
-    QPixmap scaledPixmap;
 
     QPixmap pix;//头像
     //人员信息
