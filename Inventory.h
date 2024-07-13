@@ -12,8 +12,10 @@
 class Inventory: public SerializableQObject
 {
     Q_OBJECT
+    friend class Login;
 private:
     QHash<CargoType,int> *m_pInventory;
+
 public:
 	Inventory();
 	~Inventory();

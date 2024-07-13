@@ -1,8 +1,8 @@
 #include "login.h"
 #include "ui_login.h"
 #include<QDir>
-
-
+#include"CargoType.h"
+#include"Inventory.h"
 Login::Login(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::Login)
@@ -45,6 +45,17 @@ Login::Login(QWidget *parent)
     //双击图片进行更改
     ui->touxiang->installEventFilter(this);
 
+    good<<"商品名称"<<"商品类型"<< "商品价格"<<"商品数量";
+    ui->goodtable->setColumnCount(good.count());
+    ui->goodtable->setHorizontalHeaderLabels(good);
+    ui->goodtable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    trade<<"商品名称"<<"数量浮动"<< "原因";
+    ui->tradetable->setColumnCount(trade.count());
+    ui->tradetable->setHorizontalHeaderLabels(trade);
+    ui->tradetable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    b=new Inventory;
 
 }
 
@@ -100,7 +111,7 @@ void Login::on_messagepushButton_released()
     //切换到个人信息
     ui->stackedWidget->setCurrentWidget(ui->messagepage);
 
-    ui->name ->setText(QString::fromStdString((*IT)->getuser()));
+    ui->name_1 ->setText(QString::fromStdString((*IT)->getuser()));
     ui->email->setText(QString::fromStdString((*IT)->getemail()));
     ui->phone->setText(QString::number((*IT)->getphone()));
     pix=QPixmap(QString::fromStdString((*IT)->getimage()));
@@ -239,8 +250,82 @@ void Login::on_editmessage_released()
         (*IT)->setphone(dialog.getText1().toLongLong());
         (*IT)->setuser(dialog.getText3().toStdString());
         //个人资料界面更新
-        ui->name ->setText(QString::fromStdString((*IT)->getuser()));
+        ui->name_1 ->setText(QString::fromStdString((*IT)->getuser()));
         ui->email->setText(QString::fromStdString((*IT)->getemail()));
         ui->phone->setText(QString::number((*IT)->getphone()));
     }
 }
+
+
+void Login::on_import_2_clicked()
+{
+    CargoType a;
+    a.fromFile("F:\\qt homework\\QtSupermarketManagement\\QtSupermarketManagement\\QtSupermarketManagement\\goods.txt");
+    qDebug()<<2;
+}
+
+
+void Login::on_pushButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->page);
+}
+
+
+void Login::on_pushButton_2_clicked()
+{
+    CargoType a(ui->name->text(),(ui->price->text()).toDouble(),ui->type->text());
+    b->addGoods(a,(ui->amount->text()).toInt());
+    ui->name->clear();
+    ui->price->clear();
+    ui->amount->clear();
+    ui->type->clear();
+
+}
+
+
+void Login::on_pushButton_3_clicked()
+{
+    QHash<CargoType, int>::const_iterator i;
+    for(i=b->m_pInventory->begin();i!=b->m_pInventory->constEnd();++i)
+    {
+        ui->goodtable->insertRow(ui->goodtable->rowCount());
+        QTableWidgetItem *nameItem = new QTableWidgetItem((i.key()).m_name);
+        ui->goodtable->setItem(ui->goodtable->rowCount()-1, 0, nameItem);
+        QTableWidgetItem *priceItem = new QTableWidgetItem(QString::number(i.key().m_price,'f',2));
+        ui->goodtable->setItem(ui->goodtable->rowCount()-1, 2, priceItem);
+        QTableWidgetItem *typeItem = new QTableWidgetItem((i.key()).m_type);
+        ui->goodtable->setItem(ui->goodtable->rowCount()-1, 1, typeItem);
+        QTableWidgetItem *amountItem = new QTableWidgetItem(QString::number(i.value()));
+        ui->goodtable->setItem(ui->goodtable->rowCount()-1, 3, amountItem);
+
+    }
+    ui->stackedWidget->setCurrentWidget(ui->goodspage);
+}
+
+
+void Login::on_pushButton_5_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->tradepage);
+}
+
+
+void Login::on_pushButton_6_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->page_2);
+}
+
+
+void Login::on_pushButton_4_clicked()
+{
+    ui->tradetable->insertRow(ui->tradetable->rowCount());
+    QTableWidgetItem *name2Item = new QTableWidgetItem(ui->name_2->text());
+    ui->tradetable->setItem(ui->tradetable->rowCount()-1, 0, name2Item);
+    QTableWidgetItem *reason2Item = new QTableWidgetItem(ui->reason_2->text());
+    ui->tradetable->setItem(ui->tradetable->rowCount()-1, 2, reason2Item);
+    QTableWidgetItem *amount2Item = new QTableWidgetItem(ui->amount_2->text());
+    ui->tradetable->setItem(ui->tradetable->rowCount()-1, 1, amount2Item);
+    ui->name_2->clear();
+    ui->reason_2->clear();
+    ui->amount_2->clear();
+}
+

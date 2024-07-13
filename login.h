@@ -9,8 +9,7 @@
 #include <QFileDialog>
 #include <QMouseEvent>
 #include "editdialog.h"
-
-
+#include"Inventory.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class Login;
@@ -24,6 +23,8 @@ class Login : public QMainWindow
 public:
     Login(QWidget *parent = nullptr);
     ~Login();
+    QStringList good;
+    QStringList trade;
 
 
 private slots:
@@ -57,6 +58,20 @@ private slots:
 
     void on_editmessage_released();
 
+    void on_pushButton_clicked();
+
+    void on_import_2_clicked();
+
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_3_clicked();
+
+    void on_pushButton_5_clicked();
+
+    void on_pushButton_6_clicked();
+
+    void on_pushButton_4_clicked();
+
 private:
     Ui::Login *ui;
     QPixmap pixl;
@@ -70,5 +85,6 @@ private:
     //用于记录所登录的用户
     std::vector<std::unique_ptr<Member>>::iterator IT;
 
+    Inventory *b;
 };
 #endif // LOGIN_H

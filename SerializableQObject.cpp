@@ -36,5 +36,6 @@ bool SerializableQObject::deserialize(const QByteArray& json) {
         // }
         setProperty(name.toUtf8(),object[name].toVariant());
     }
+    qDebug()<<4;
     return true;
 }
