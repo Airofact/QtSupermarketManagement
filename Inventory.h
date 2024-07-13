@@ -19,7 +19,7 @@ public:
 	~Inventory();
 	Inventory(const Inventory &inventory);
     Inventory(const QByteArray& json);
-
+    Inventory fromFile(const QString& path);
     // 增加商品 例addGoods(CargoType("Apple", 1.5, "Fruit"), 10);
     void addGoods(const CargoType &goods, int amount);
 	// 修改商品信息 例editGoods("Apple", 2.5, 20);

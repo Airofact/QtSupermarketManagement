@@ -2,6 +2,7 @@
 
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QFile>
 
 CargoType::CargoType(const QString &name, double price, const QString &type)
     : m_name(name), m_price(price), m_type(type)
@@ -16,6 +17,14 @@ CargoType::CargoType(const CargoType &goods)
 CargoType::CargoType(const QByteArray& json)
 {
     this->deserialize(json);
+}
+CargoType CargoType::fromFile(const QString& path){
+    QFile file(path);
+    if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
+        return CargoType();
+    }
+    QByteArray json = file.readAll();
+    return CargoType(json);
 }
 CargoType::CargoType():
     CargoType("N/A",0,"N/A")

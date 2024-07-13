@@ -1,6 +1,7 @@
 #include "Inventory.h"
 
 #include <iostream>
+#include <QFile>
 
 Inventory::Inventory()
 {
@@ -17,6 +18,20 @@ Inventory::~Inventory()
 Inventory::Inventory(const Inventory& inventory)
 {
     m_pInventory = new QHash<CargoType,int>(*inventory.getInventory());
+}
+
+Inventory::Inventory(const QByteArray& json)
+{
+    this->deserialize(json);
+}
+
+Inventory Inventory::fromFile(const QString& path){
+    QFile file(path);
+    if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
+        return Inventory();
+    }
+    QByteArray json = file.readAll();
+    return Inventory(json);
 }
 
 CargoType* Inventory::getCargoType(const QString &name) const

@@ -1,6 +1,7 @@
 #include "Trade.h"
 
 #include <iostream>
+#include <QFile>
 
 Trade::Trade(Inventory *linkedInventory)
     : linkedInventory(linkedInventory)
@@ -12,6 +13,22 @@ Trade::~Trade()
 {
     if (tradeList != nullptr)
         delete tradeList;
+}
+
+Trade::Trade(const QByteArray &json)
+{
+    this->deserialize(json);
+}
+
+Trade Trade::fromFile(const QString &path)
+{
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        return Trade(nullptr);
+    }
+    QByteArray json = file.readAll();
+    return Trade(json);
 }
 
 tradeListItem *Trade::getTradeListItem(const QString &name) const
