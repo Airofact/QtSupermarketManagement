@@ -3,6 +3,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QFile>
+#include<qmessagebox.h>
 
 CargoType::CargoType(const QString &name, double price, const QString &type)
     : m_name(name), m_price(price), m_type(type)

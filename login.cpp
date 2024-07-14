@@ -56,7 +56,6 @@ Login::Login(QWidget *parent)
     ui->tradetable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     b=new Inventory;
-
 }
 
 Login::~Login()
@@ -259,6 +258,8 @@ void Login::on_editmessage_released()
 
 void Login::on_import_2_clicked()
 {
+    ui->goodtable->clearContents();
+    ui->goodtable->setRowCount(0);
     QString file_name=QString("F:/qt homework/QtSupermarketManagement/QtSupermarketManagement/QtSupermarketManagement/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/goods.json");
     Inventory a = Inventory::fromFile(file_name);
     QHash<CargoType, int>::const_iterator i;
@@ -297,19 +298,6 @@ void Login::on_pushButton_2_clicked()
 
 void Login::on_pushButton_3_clicked()
 {
-    QHash<CargoType, int>::const_iterator i;
-    for(i=b->m_pInventory->begin();i!=b->m_pInventory->constEnd();++i)
-    {
-        ui->goodtable->insertRow(ui->goodtable->rowCount());
-        QTableWidgetItem *nameItem = new QTableWidgetItem((i.key()).m_name);
-        ui->goodtable->setItem(ui->goodtable->rowCount()-1, 0, nameItem);
-        QTableWidgetItem *priceItem = new QTableWidgetItem(QString::number(i.key().m_price,'f',2));
-        ui->goodtable->setItem(ui->goodtable->rowCount()-1, 2, priceItem);
-        QTableWidgetItem *typeItem = new QTableWidgetItem((i.key()).m_type);
-        ui->goodtable->setItem(ui->goodtable->rowCount()-1, 1, typeItem);
-        QTableWidgetItem *amountItem = new QTableWidgetItem(QString::number(i.value()));
-        ui->goodtable->setItem(ui->goodtable->rowCount()-1, 3, amountItem);
-    }
     ui->stackedWidget->setCurrentWidget(ui->goodspage);
 }
 
