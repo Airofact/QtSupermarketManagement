@@ -4,9 +4,11 @@
 #endif // MEMBER_H
 #include <string>
 #include <iostream>
+#include "SerializableQObject.h"
 
-class Member
+class Member: public SerializableQObject
 {
+    Q_OBJECT
 private:
     std::string user;
     std::string password;
@@ -22,6 +24,12 @@ public:
            std::string email,
            long long phone,
            std::string image):user(user),password(password),email(email),phone(phone),image(image){};
+    Member(const QByteArray& json);
+    //序列化
+    bool toJsonObject(QJsonObject& json) const;
+    //反序列化
+    bool fromJsonObject(const QJsonObject& json);
+    Member fromFile(const QString& path);
 
 
     //获取信息

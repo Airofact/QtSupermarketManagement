@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <QFile>
+#include<QJsonArray>
 
 Trade::Trade(Inventory *linkedInventory)
     : linkedInventory(linkedInventory)
@@ -19,7 +20,21 @@ Trade::Trade(const QByteArray &json)
 {
     this->deserialize(json);
 }
-
+bool Trade::toJsonObject(QJsonObject &json) const
+{
+    QJsonArray list;
+    for (const auto &i : *tradeList)
+    {
+        QJsonObject obj;
+        obj.insert("name", i.first);
+        QJsonObject inven;
+        i.second.toJsonObject(inven);
+        obj.insert("inventory", inven);
+        list.append(obj);
+    }
+    json.insert("tradeList", list);
+    return true;
+}
 Trade Trade::fromFile(const QString &path)
 {
     QFile file(path);
@@ -29,6 +44,19 @@ Trade Trade::fromFile(const QString &path)
     }
     QByteArray json = file.readAll();
     return Trade(json);
+}
+bool Trade::fromJsonObject(const QJsonObject &json)
+{
+    QJsonArray list = json["tradeList"].toArray();
+    for (const auto &i : list)
+    {
+        QJsonObject obj = i.toObject();
+        QString name = obj["name"].toString();
+        Inventory inven;
+        inven.fromJsonObject(obj["inventory"].toObject());
+        tradeList->push_back(std::make_pair(name, inven));
+    }
+    return true;
 }
 
 tradeListItem *Trade::getTradeListItem(const QString &name) const

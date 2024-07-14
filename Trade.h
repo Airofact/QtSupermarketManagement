@@ -20,6 +20,10 @@ public:
     Trade(Inventory *linkedInventory);
     ~Trade();
     Trade(const QByteArray& json);
+    //序列化
+    bool toJsonObject(QJsonObject& json) const override;
+    //反序列化
+    bool fromJsonObject(const QJsonObject& json) override;
     static Trade fromFile(const QString& path);
     // 添加交易列表元素 例addTradeListItem("customer", inventory); 其中inventory需要提前创建
     bool addTradeListItem(const QString &name, Inventory &inven);

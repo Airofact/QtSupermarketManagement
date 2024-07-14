@@ -14,6 +14,9 @@ CargoType::CargoType(const CargoType &goods)
     m_price = goods.m_price;
     m_type = goods.m_type;
 }
+CargoType::CargoType():
+    CargoType("N/A",0,"N/A")
+{}
 CargoType::CargoType(const QByteArray& json)
 {
     this->deserialize(json);
@@ -26,11 +29,19 @@ CargoType CargoType::fromFile(const QString& path){
     QByteArray json = file.readAll();
     return CargoType(json);
 }
-CargoType::CargoType():
-    CargoType("N/A",0,"N/A")
-{
-
+bool CargoType::toJsonObject(QJsonObject& json) const{
+    json["name"] = m_name;
+    json["price"] = m_price;
+    json["type"] = m_type;
+    return true;
 }
+bool CargoType::fromJsonObject(const QJsonObject& json){
+    setName(json["name"].toString());
+    setPrice(json["price"].toDouble());
+    setType(json["type"].toString());
+    return true;
+}
+
 QString CargoType::getName() const
 {
     return m_name;

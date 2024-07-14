@@ -19,6 +19,10 @@ public:
 	~Inventory();
 	Inventory(const Inventory &inventory);
     Inventory(const QByteArray& json);
+    //序列化
+    bool toJsonObject(QJsonObject& json) const override;
+    //反序列化
+    bool fromJsonObject(const QJsonObject& json) override;
     static Inventory fromFile(const QString& path);
     // 增加商品 例addGoods(CargoType("Apple", 1.5, "Fruit"), 10);
     void addGoods(const CargoType &goods, int amount);
