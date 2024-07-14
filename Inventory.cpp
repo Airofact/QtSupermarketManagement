@@ -128,3 +128,5 @@ bool Inventory::transferGoods(Inventory& other, const QString& name, int amount)
     other.addGoods(*getCargoType(name),amount);
     return true;
 }
+
+

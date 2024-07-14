@@ -1,7 +1,6 @@
 #include"login.h"
-
 #include <QApplication>
-
+#include"Inventory.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

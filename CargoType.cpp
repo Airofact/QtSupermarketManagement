@@ -19,14 +19,17 @@ CargoType::CargoType():
 {}
 CargoType::CargoType(const QByteArray& json)
 {
+    qDebug()<<3;
     this->deserialize(json);
 }
-CargoType CargoType::fromFile(const QString& path){
+CargoType CargoType::fromFile(const QString& path)
+{
     QFile file(path);
     if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
         return CargoType();
     }
     QByteArray json = file.readAll();
+    qDebug()<<1;
     return CargoType(json);
 }
 bool CargoType::toJsonObject(QJsonObject& json) const{

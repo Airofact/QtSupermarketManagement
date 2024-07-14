@@ -12,6 +12,8 @@
 class CargoType: public SerializableQObject
 {
 	Q_OBJECT
+    friend class Login;
+    friend class Inventory;
 private:
     QString m_name;
     Q_PROPERTY(QString name MEMBER m_name READ getName WRITE setName NOTIFY nameChanged FINAL);
