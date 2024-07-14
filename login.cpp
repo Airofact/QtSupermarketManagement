@@ -56,7 +56,6 @@ Login::Login(QWidget *parent)
     ui->tradetable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     b=new Inventory;
-    count=0;
 
 }
 
@@ -260,30 +259,22 @@ void Login::on_editmessage_released()
 
 void Login::on_import_2_clicked()
 {
-    count=0;
-    CargoType b;
-
-    while(1)
+    Inventory b;
+    QString file_name=QString("F:/qt homework/QtSupermarketManagement/QtSupermarketManagement/QtSupermarketManagement/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/goods.json");
+    Inventory a = b.fromFile(file_name);
+    QHash<CargoType, int>::const_iterator i;
+    for(i=a.m_pInventory->begin();i!=a.m_pInventory->constEnd();++i)
     {
-    QString file_name=QString("F:/qt homework/QtSupermarketManagement/QtSupermarketManagement/QtSupermarketManagement/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/goods_%1.json").arg(count);
-    CargoType a = b.fromFile(file_name);
-    if(a.getName()=="N/A")
-    {
-        break;
-    }
     ui->goodtable->insertRow(ui->goodtable->rowCount());
-    QTableWidgetItem *nameItem = new QTableWidgetItem(a.getName());
+    QTableWidgetItem *nameItem = new QTableWidgetItem(i.key().getName());
     ui->goodtable->setItem(ui->goodtable->rowCount()-1, 0, nameItem);
-    QTableWidgetItem *priceItem = new QTableWidgetItem(QString::number(a.getPrice(),'f',2));
+    QTableWidgetItem *priceItem = new QTableWidgetItem(QString::number(i.key().getPrice(),'f',2));
     ui->goodtable->setItem(ui->goodtable->rowCount()-1, 2, priceItem);
-    QTableWidgetItem *typeItem = new QTableWidgetItem(a.getType());
+    QTableWidgetItem *typeItem = new QTableWidgetItem(i.key().getType());
     ui->goodtable->setItem(ui->goodtable->rowCount()-1, 1, typeItem);
-    //QTableWidgetItem *amountItem = new QTableWidgetItem(QString::number(i.value()));
-    //ui->goodtable->setItem(ui->goodtable->rowCount()-1, 3, amountItem);
-    count=count+1;
+    QTableWidgetItem *amountItem = new QTableWidgetItem(QString::number(i.value()));
+    ui->goodtable->setItem(ui->goodtable->rowCount()-1, 3, amountItem);
     }
-
-
 }
 
 
@@ -301,19 +292,7 @@ void Login::on_pushButton_2_clicked()
     ui->price->clear();
     ui->amount->clear();
     ui->type->clear();
-    QHash<CargoType, int>::const_iterator c;
-    for(i=b->m_pInventory->begin();i!=b->m_pInventory->constEnd();++i)
-    {
-        c= i;
-    }
-    QByteArray data;
-    QString file_name=QString("goods_%1.json").arg(count);
-    QFile file(file_name);
-    file.open(QIODevice::WriteOnly);
-    c.key().serialize(data);
-    file.write(data);
-    file.close();
-    count=count+1;
+
 }
 
 
@@ -333,7 +312,6 @@ void Login::on_pushButton_3_clicked()
         ui->goodtable->setItem(ui->goodtable->rowCount()-1, 3, amountItem);
     }
     ui->stackedWidget->setCurrentWidget(ui->goodspage);
-    count=0;
 }
 
 
@@ -365,4 +343,16 @@ void Login::on_pushButton_4_clicked()
 }
 
 
+
+
+void Login::on_export_2_clicked()
+{
+    QByteArray data;
+    QString file_name=QString("goods.json");
+    QFile file(file_name);
+    file.open(QIODevice::WriteOnly);
+    b->serialize(data);
+    file.write(data);
+    file.close();
+}
 
