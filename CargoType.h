@@ -13,6 +13,7 @@ class CargoType: public SerializableQObject
 {
 	Q_OBJECT
     friend class Login;
+    friend class Inventory;
 private:
     QString m_name;
     Q_PROPERTY(QString name MEMBER m_name READ getName WRITE setName NOTIFY nameChanged FINAL);
@@ -20,12 +21,15 @@ private:
     Q_PROPERTY(double price MEMBER m_price READ getPrice WRITE setPrice NOTIFY priceChanged FINAL);
     QString m_type;
     Q_PROPERTY(QString type MEMBER m_type READ getType WRITE setType NOTIFY typeChanged FINAL);
-
 public:
     CargoType(const QString &name, double price, const QString &type);
     CargoType(const CargoType &goods);
     CargoType(const QByteArray& json);
     CargoType();
+    //序列化
+    bool toJsonObject(QJsonObject& json) const override;
+    //反序列化
+    bool fromJsonObject(const QJsonObject& json) override;
     static CargoType fromFile(const QString& path);
 	// 获得商品名称 例getName();
     QString getName() const;

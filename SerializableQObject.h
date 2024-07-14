@@ -7,10 +7,16 @@
 class SerializableQObject: public QObject, public ISerializable{
     Q_OBJECT
 public:
+    SerializableQObject() = default;
+    SerializableQObject(const QByteArray& json);
+    ~SerializableQObject() = default;
+    static SerializableQObject fromFile(const QString& path);
     //序列化
-    bool serialize(QByteArray& json) const override;
+    virtual bool serialize(QByteArray& json) const override;
+    virtual bool toJsonObject(QJsonObject& json) const override;
     // 反序列化
-    bool deserialize(const QByteArray& json) override;
+    virtual bool deserialize(const QByteArray& json) override;
+    virtual bool fromJsonObject(const QJsonObject& json) override;
 };
 
 #endif // SERIALIZABLEQOBJECT_H

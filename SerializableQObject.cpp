@@ -1,20 +1,26 @@
-#include "SerializableQObject.h"
+  #include "SerializableQObject.h"
 
 #include<QJsonObject>
 #include<QJsonDocument>
 #include<QMetaObject>
 #include<QMetaProperty>
+#include<QJsonArray>
+#include<QFile>
+
+SerializableQObject SerializableQObject::fromFile(const QString& path){
+    QFile file(path);
+    if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
+        return SerializableQObject();
+    }
+    QByteArray json = file.readAll();
+    file.close();
+    return SerializableQObject(json);
+}
 
 bool SerializableQObject::serialize(QByteArray& json) const {
     QJsonObject object;
-    const QMetaObject* metaObject = this->metaObject();
-    for(
-        auto it = metaObject->propertyOffset();
-        it < metaObject->propertyCount();
-        ++it
-    ){
-        QMetaProperty prop = metaObject->property(it);
-        object[prop.name()] = property(prop.name()).toJsonValue();
+    if(!toJsonObject(object)){
+        return false;
     }
     json = QJsonDocument(object).toJson();
     return true;
@@ -36,6 +42,7 @@ bool SerializableQObject::deserialize(const QByteArray& json) {
         // }
         setProperty(name.toUtf8(),object[name].toVariant());
     }
-    qDebug()<<4;
     return true;
+    return fromJsonObject(object);
+
 }

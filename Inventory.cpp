@@ -33,6 +33,30 @@ Inventory Inventory::fromFile(const QString& path){
     QByteArray json = file.readAll();
     return Inventory(json);
 }
+bool Inventory::toJsonObject(QJsonObject& json) const{
+    for (const CargoType& type : m_pInventory->keys())
+    {
+        QJsonObject key;
+        type.toJsonObject(key);
+        QJsonObject pair;
+        pair.insert("cargoType",key);
+        pair.insert("amout",(*m_pInventory)[type]);
+        json.insert(type.getName(), pair);
+    }
+    return true;
+}
+bool Inventory::fromJsonObject(const QJsonObject& json){
+    for (const QString& key : json.keys())
+    {
+        QJsonObject pair = json[key].toObject();
+        CargoType type;
+        if(!type.fromJsonObject(pair["cargoType"].toObject())){
+            return false;
+        };
+        m_pInventory->insert(type,pair["amout"].toInt());
+    }
+    return true;
+}
 
 CargoType* Inventory::getCargoType(const QString &name) const
 {
@@ -104,3 +128,5 @@ bool Inventory::transferGoods(Inventory& other, const QString& name, int amount)
     other.addGoods(*getCargoType(name),amount);
     return true;
 }
+
+

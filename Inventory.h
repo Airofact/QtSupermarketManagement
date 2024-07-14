@@ -4,6 +4,9 @@
 #include<QMap>
 #include<QHash>
 #include "CargoType.h"
+#include <QObject>
+#include <QJsonObject>
+#include <QJsonDocument>
 
 /**
  *  库存类
@@ -13,6 +16,7 @@ class Inventory: public SerializableQObject
 {
     Q_OBJECT
     friend class Login;
+
 private:
     QHash<CargoType,int> *m_pInventory;
 
@@ -21,6 +25,10 @@ public:
 	~Inventory();
 	Inventory(const Inventory &inventory);
     Inventory(const QByteArray& json);
+    //序列化
+    bool toJsonObject(QJsonObject& json) const override;
+    //反序列化
+    bool fromJsonObject(const QJsonObject& json) override;
     static Inventory fromFile(const QString& path);
     // 增加商品 例addGoods(CargoType("Apple", 1.5, "Fruit"), 10);
     void addGoods(const CargoType &goods, int amount);
@@ -42,6 +50,7 @@ public:
     const QHash<CargoType, int>* getInventory() const;
 	// 测试打印用
     void print() const;
+
 };
 
 #endif

@@ -72,6 +72,7 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+
 private:
     Ui::Login *ui;
     QPixmap pixl;
@@ -86,5 +87,7 @@ private:
     std::vector<std::unique_ptr<Member>>::iterator IT;
 
     Inventory *b;
+    int count;
+    QHash<CargoType, int>::const_iterator i;
 };
 #endif // LOGIN_H
