@@ -21,6 +21,7 @@ Inventory::Inventory(const Inventory& inventory)
 }
 
 Inventory::Inventory(const QByteArray& json)
+    :Inventory()
 {
     this->deserialize(json);
 }
@@ -40,7 +41,7 @@ bool Inventory::toJsonObject(QJsonObject& json) const{
         type.toJsonObject(key);
         QJsonObject pair;
         pair.insert("cargoType",key);
-        pair.insert("amout",(*m_pInventory)[type]);
+        pair.insert("amount",(*m_pInventory)[type]);
         json.insert(type.getName(), pair);
     }
     return true;
@@ -53,7 +54,7 @@ bool Inventory::fromJsonObject(const QJsonObject& json){
         if(!type.fromJsonObject(pair["cargoType"].toObject())){
             return false;
         };
-        m_pInventory->insert(type,pair["amout"].toInt());
+        m_pInventory->insert(type,pair["amount"].toInt());
     }
     return true;
 }

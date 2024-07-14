@@ -259,11 +259,10 @@ void Login::on_editmessage_released()
 
 void Login::on_import_2_clicked()
 {
-    Inventory b;
-    QString file_name=QString("F:/qt homework/QtSupermarketManagement/QtSupermarketManagement/QtSupermarketManagement/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/goods.json");
-    Inventory a = b.fromFile(file_name);
+    QString file_name=QFileDialog::getOpenFileName(this, "Load JSON", "", "JSON Files (*.json)");
+    Inventory a = Inventory::fromFile(file_name);
     QHash<CargoType, int>::const_iterator i;
-    for(i=a.m_pInventory->begin();i!=a.m_pInventory->constEnd();++i)
+    for(i=a.m_pInventory->begin();i!=a.m_pInventory->end();++i)
     {
     ui->goodtable->insertRow(ui->goodtable->rowCount());
     QTableWidgetItem *nameItem = new QTableWidgetItem(i.key().getName());

@@ -1,29 +1,30 @@
 #include "Trade.h"
 
-#include <iostream>
 #include <QFile>
 #include<QJsonArray>
+#include <iostream>
 
 Trade::Trade(Inventory *linkedInventory)
-    : linkedInventory(linkedInventory)
+    : m_pLinkedInventory(linkedInventory)
 {
-    tradeList = new std::list<tradeListItem>;
+    m_pTradeList = new std::list<tradeListItem>;
 }
 
 Trade::~Trade()
 {
-    if (tradeList != nullptr)
-        delete tradeList;
+    if (m_pTradeList != nullptr)
+        delete m_pTradeList;
 }
 
 Trade::Trade(const QByteArray &json)
 {
+    m_pTradeList = new std::list<tradeListItem>;
     this->deserialize(json);
 }
 bool Trade::toJsonObject(QJsonObject &json) const
 {
     QJsonArray list;
-    for (const auto &i : *tradeList)
+    for (const auto &i : *m_pTradeList)
     {
         QJsonObject obj;
         obj.insert("name", i.first);
@@ -54,14 +55,14 @@ bool Trade::fromJsonObject(const QJsonObject &json)
         QString name = obj["name"].toString();
         Inventory inven;
         inven.fromJsonObject(obj["inventory"].toObject());
-        tradeList->push_back(std::make_pair(name, inven));
+        m_pTradeList->push_back(std::make_pair(name, inven));
     }
     return true;
 }
 
 tradeListItem *Trade::getTradeListItem(const QString &name) const
 {
-    for (auto &i : *tradeList)
+    for (auto &i : *m_pTradeList)
     {
         if (i.first == name)
         {
@@ -77,27 +78,27 @@ bool Trade::addTradeListItem(const QString &name, Inventory &inven)
     {
         return false;
     }
-    tradeList->push_back(std::make_pair(name, inven));
+    m_pTradeList->push_back(std::make_pair(name, inven));
     for (const auto &type : inven.getInventory()->keys())
     {
-        linkedInventory->removeGoods(type.getName(), inven.getAmount(name));
+        m_pLinkedInventory->removeGoods(type.getName(), inven.getAmount(name));
     }
     return true;
 }
 
 bool Trade::removeTradeListItemByName(const QString &name)
 {
-    auto it = tradeList->begin();
-    for (; it != tradeList->end(); ++it)
+    auto it = m_pTradeList->begin();
+    for (; it != m_pTradeList->end(); ++it)
     {
         if (it->first == name)
         {
             auto inventory = *it->second.getInventory();
             for (auto pair = inventory.begin(); pair != inventory.end(); ++pair)
             {
-                linkedInventory->addGoods(pair.key(),pair.value());
+                m_pLinkedInventory->addGoods(pair.key(),pair.value());
             }
-            tradeList->erase(it);
+            m_pTradeList->erase(it);
 
             return true;
         }
@@ -119,7 +120,7 @@ bool Trade::editTradeListItem(const QString &name, Inventory &inven)
 
 void Trade::printTradeList() const
 {
-    for (auto &i : *tradeList)
+    for (auto &i : *m_pTradeList)
     {
         std::cout << i.first.toStdString() << std::endl;
         i.second.print();
@@ -128,5 +129,5 @@ void Trade::printTradeList() const
 
 std::list<tradeListItem> *Trade::getTradeList() const
 {
-    return tradeList;
+    return m_pTradeList;
 }

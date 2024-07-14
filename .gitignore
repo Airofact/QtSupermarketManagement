@@ -61,3 +61,4 @@ ui_*.h
 *.patch
 
 QtSupermarketManagement.pro
+*.json

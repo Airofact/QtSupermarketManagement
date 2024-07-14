@@ -13,8 +13,8 @@ class Trade: public SerializableQObject
 {
     Q_OBJECT
 private:
-    Inventory *linkedInventory;
-    std::list<tradeListItem> *tradeList;
+    Inventory *m_pLinkedInventory;
+    std::list<tradeListItem> *m_pTradeList;
 
 public:
     Trade(Inventory *linkedInventory);
