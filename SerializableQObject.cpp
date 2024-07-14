@@ -1,33 +1,26 @@
-  #include "SerializableQObject.h"
-
-#include<QJsonObject>
+#include"SerializableQObject.h"
 #include<QJsonDocument>
-#include<QMetaObject>
-#include<QMetaProperty>
-#include<QJsonArray>
-#include<QFile>
 
-SerializableQObject SerializableQObject::fromFile(const QString& path){
-    QFile file(path);
-    if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
-        return SerializableQObject();
-    }
-    QByteArray json = file.readAll();
-    file.close();
-    return SerializableQObject(json);
-}
-
-bool SerializableQObject::serialize(QByteArray& json) const {
-    QJsonObject object;
-    if(!toJsonObject(object)){
-        return false;
-    }
-    json = QJsonDocument(object).toJson();
+bool SerializableQObject::serialize(QByteArray& json) const{
+    QJsonObject jsonObj;
+    this->toJsonObject(jsonObj);
+    QJsonDocument jsonDoc(jsonObj);
+    json = jsonDoc.toJson();
     return true;
 }
 
-bool SerializableQObject::deserialize(const QByteArray& json) {
-    QJsonDocument document = QJsonDocument::fromJson(json);
-    QJsonObject object = document.object();
-    return fromJsonObject(object);
+bool SerializableQObject::toJsonObject(QJsonObject& json) const{
+    Q_UNUSED(json);
+    return true;
+}
+
+bool SerializableQObject::deserialize(const QByteArray& json){
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(json);
+    QJsonObject jsonObj = jsonDoc.object();
+    return this->fromJsonObject(jsonObj);
+}
+
+bool SerializableQObject::fromJsonObject(const QJsonObject& json){
+    Q_UNUSED(json);
+    return true;
 }
