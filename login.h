@@ -72,7 +72,6 @@ private slots:
 
     void on_pushButton_4_clicked();
 
-    void on_export_2_clicked();
 
 private:
     Ui::Login *ui;
@@ -88,5 +87,7 @@ private:
     std::vector<std::unique_ptr<Member>>::iterator IT;
 
     Inventory *b;
+    int count;
+    QHash<CargoType, int>::const_iterator i;
 };
 #endif // LOGIN_H
