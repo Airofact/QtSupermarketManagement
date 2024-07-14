@@ -4,6 +4,9 @@
 #include<QMap>
 #include<QHash>
 #include "CargoType.h"
+#include <QObject>
+#include <QJsonObject>
+#include <QJsonDocument>
 
 /**
  *  库存类
@@ -13,6 +16,7 @@ class Inventory: public SerializableQObject
 {
     Q_OBJECT
     friend class Login;
+
 private:
     QHash<CargoType,int> *m_pInventory;
 
@@ -42,6 +46,7 @@ public:
     const QHash<CargoType, int>* getInventory() const;
 	// 测试打印用
     void print() const;
+
 };
 
 #endif

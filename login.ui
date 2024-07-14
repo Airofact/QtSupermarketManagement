@@ -22,7 +22,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>5</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="loginpage">
        <widget class="QLineEdit" name="userlineEdit">
@@ -607,13 +607,26 @@
          <string>添加</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="import_2">
+       <widget class="QPushButton" name="export_2">
         <property name="geometry">
          <rect>
           <x>20</x>
           <y>120</y>
           <width>75</width>
           <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>导出</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="import_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>180</y>
+          <width>93</width>
+          <height>28</height>
          </rect>
         </property>
         <property name="text">
@@ -834,7 +847,7 @@
      <x>0</x>
      <y>0</y>
      <width>682</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>

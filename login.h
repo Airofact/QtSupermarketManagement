@@ -72,6 +72,8 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_export_2_clicked();
+
 private:
     Ui::Login *ui;
     QPixmap pixl;

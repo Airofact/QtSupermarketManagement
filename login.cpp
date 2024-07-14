@@ -329,3 +329,18 @@ void Login::on_pushButton_4_clicked()
     ui->amount_2->clear();
 }
 
+
+void Login::on_export_2_clicked()
+{
+    QByteArray data;
+    QHash<CargoType, int>::const_iterator i;
+    QFile file("goods.json");
+    file.open(QIODevice::Append);
+    for(i=b->m_pInventory->begin();i!=b->m_pInventory->constEnd();++i)
+    {
+    i.key().serialize(data);
+    file.write(data);
+    }
+    file.close();
+}
+
