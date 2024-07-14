@@ -22,7 +22,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>4</number>
+       <number>9</number>
       </property>
       <widget class="QWidget" name="loginpage">
        <widget class="QLineEdit" name="userlineEdit">
@@ -617,7 +617,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>导出</string>
+         <string>导出至json</string>
         </property>
        </widget>
        <widget class="QPushButton" name="import_2">
@@ -630,7 +630,33 @@
          </rect>
         </property>
         <property name="text">
-         <string>导入</string>
+         <string>导入表格</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_9">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>230</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>编辑</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_11">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>280</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>查找</string>
         </property>
        </widget>
       </widget>
@@ -834,6 +860,166 @@
         </property>
         <property name="text">
          <string>数量</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_3">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>20</y>
+          <width>53</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>添加商品</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="editpage">
+       <widget class="QLabel" name="label">
+        <property name="geometry">
+         <rect>
+          <x>290</x>
+          <y>40</y>
+          <width>53</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>编辑</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="editgood">
+        <property name="geometry">
+         <rect>
+          <x>240</x>
+          <y>80</y>
+          <width>113</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>名称</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="editprice">
+        <property name="geometry">
+         <rect>
+          <x>240</x>
+          <y>150</y>
+          <width>113</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>价格</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="editamount">
+        <property name="geometry">
+         <rect>
+          <x>240</x>
+          <y>230</y>
+          <width>113</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>数量</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_7">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>290</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>修改</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_8">
+        <property name="geometry">
+         <rect>
+          <x>350</x>
+          <y>290</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>返回</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_10">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>290</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>删除</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="findpage">
+       <widget class="QLabel" name="label_4">
+        <property name="geometry">
+         <rect>
+          <x>270</x>
+          <y>60</y>
+          <width>53</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>查找</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_12">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>240</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>查找</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_13">
+        <property name="geometry">
+         <rect>
+          <x>360</x>
+          <y>240</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>返回</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="findedit">
+        <property name="geometry">
+         <rect>
+          <x>230</x>
+          <y>130</y>
+          <width>113</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>名称</string>
         </property>
        </widget>
       </widget>

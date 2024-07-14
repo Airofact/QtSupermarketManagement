@@ -10,6 +10,7 @@
 #include <QMouseEvent>
 #include "editdialog.h"
 #include"Inventory.h"
+#include"find.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class Login;
@@ -25,6 +26,7 @@ public:
     ~Login();
     QStringList good;
     QStringList trade;
+    Ui::find *find_ui;
 
 
 private slots:
@@ -74,6 +76,20 @@ private slots:
 
 
     void on_export_2_clicked();
+
+    void on_pushButton_8_clicked();
+
+    void on_pushButton_9_clicked();
+
+    void on_pushButton_7_clicked();
+
+    void on_pushButton_10_clicked();
+
+    void on_pushButton_11_clicked();
+
+    void on_pushButton_13_clicked();
+
+    void on_pushButton_12_clicked();
 
 private:
     Ui::Login *ui;

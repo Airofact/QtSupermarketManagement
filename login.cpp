@@ -5,7 +5,7 @@
 #include"Inventory.h"
 Login::Login(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::Login)
+    ,ui(new Ui::Login)
 {
     ui->setupUi(this);
 
@@ -259,7 +259,7 @@ void Login::on_editmessage_released()
 
 void Login::on_import_2_clicked()
 {
-    QString file_name=QFileDialog::getOpenFileName(this, "Load JSON", "", "JSON Files (*.json)");
+    QString file_name=QString("F:/qt homework/QtSupermarketManagement/QtSupermarketManagement/QtSupermarketManagement/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/goods.json");
     Inventory a = Inventory::fromFile(file_name);
     QHash<CargoType, int>::const_iterator i;
     for(i=a.m_pInventory->begin();i!=a.m_pInventory->end();++i)
@@ -353,5 +353,73 @@ void Login::on_export_2_clicked()
     b->serialize(data);
     file.write(data);
     file.close();
+}
+
+
+void Login::on_pushButton_8_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->goodspage);
+}
+
+
+void Login::on_pushButton_9_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->editpage);
+}
+
+
+void Login::on_pushButton_7_clicked()
+{
+    QString file_name=QString("F:/qt homework/QtSupermarketManagement/QtSupermarketManagement/QtSupermarketManagement/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/goods.json");
+    Inventory edit = Inventory::fromFile(file_name);
+    edit.editGoods(ui->editgood->text(), (ui->editprice->text()).toDouble(), (ui->editamount->text()).toInt());            //此处有bug，无法改变price值
+    QByteArray data;
+    QString file1=QString("goods.json");
+    QFile file(file1);
+    file.open(QIODevice::WriteOnly);
+    edit.serialize(data);
+    file.write(data);
+    file.close();
+}
+
+
+void Login::on_pushButton_10_clicked()
+{
+    QString file_name=QString("F:/qt homework/QtSupermarketManagement/QtSupermarketManagement/QtSupermarketManagement/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/goods.json");
+    Inventory edit = Inventory::fromFile(file_name);
+    edit.removeGoods(ui->editgood->text(),(ui->editamount->text()).toInt());
+    QByteArray data;
+    QString file1=QString("goods.json");
+    QFile file(file1);
+    file.open(QIODevice::WriteOnly);
+    edit.serialize(data);
+    file.write(data);
+    file.close();
+}
+
+
+
+void Login::on_pushButton_13_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->goodspage);
+}
+
+
+void Login::on_pushButton_11_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->findpage);
+}
+
+
+void Login::on_pushButton_12_clicked()
+{
+    int num;
+    QMessageBox msg;
+    QString file_name=QString("F:/qt homework/QtSupermarketManagement/QtSupermarketManagement/QtSupermarketManagement/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/goods.json");
+    Inventory find = Inventory::fromFile(file_name);
+    num=find.getAmount(ui->findedit->text());
+    QString message=QString("该商品的数量为：%1").arg(num);
+    msg.setText(message);
+    msg.exec();
 }
 

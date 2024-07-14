@@ -90,7 +90,7 @@ void Inventory::print() const
 	}
 }
 
-void Inventory::editGoods(const QString &name, double price, int amount)
+void Inventory:: editGoods(const QString &name, double price, int amount)
 {
     CargoType* type = getCargoType(name);
     type->setPrice(price);
