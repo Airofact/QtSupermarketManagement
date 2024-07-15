@@ -8,14 +8,23 @@ Login::Login(QWidget *parent)
     ,ui(new Ui::Login)
 {
     ui->setupUi(this);
+    // 初始化定时器
+    timer = new QTimer(this);
+    timer->setSingleShot(true);
 
     //从登陆界面开始
     ui->stackedWidget->setCurrentWidget(ui->loginpage);
+    // 连接文本变化信号到槽
+    connect(ui->passwordlineEdit, &QLineEdit::textEdited, this, &Login::onTextEdited);
+    connect(timer, &QTimer::timeout, this, &Login::hideText);
 
     //密码隐藏
-    ui->passwordlineEdit->setEchoMode(QLineEdit::Password);
     ui->assign_password_edit->setEchoMode(QLineEdit::Password);
     ui->confirm_password_edit->setEchoMode(QLineEdit::Password);
+
+
+    //鼠标悬停在头像上显示信息
+    ui->touxiang->setToolTip("双击头像进行更改");
 
 
     //登陆界面的图片
@@ -40,10 +49,12 @@ Login::Login(QWidget *parent)
 
 
     //预设信息
-    members.emplace_back(new Member("乔鹏博","yun211314","798370740@qq.com",15525125026LL,".\\pics\\ph3.png"));
+    members.emplace_back(new Member("乔鹏博","yun211314","798370740@qq.com",15525125026LL,":/pics/ph3.png"));
 
     //双击图片进行更改
     ui->touxiang->installEventFilter(this);
+
+
 
     good<<"商品名称"<<"商品类型"<< "商品价格"<<"商品数量";
     ui->goodtable->setColumnCount(good.count());
@@ -64,13 +75,38 @@ Login::~Login()
     delete ui;
 }
 
+QPixmap Login::Rounded(QPixmap &pix)
+{
+    QPixmap roundedPixmap(pix.size());
+    roundedPixmap.fill(Qt::transparent); // 填充透明背景
+
+    QPainter painter(&roundedPixmap);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setBrush(Qt::white); // 设置背景颜色
+    painter.setPen(Qt::NoPen);
+    painter.drawEllipse(0, 0, pix.width(), pix.height()); // 绘制圆形
+
+    painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+    painter.drawPixmap(0, 0, pix); // 绘制图片
+    painter.end();
+    return roundedPixmap;
+}
+
+void Login::keyPressEvent(QKeyEvent *event)
+{
+    // 检查是否按下回车键
+    if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
+        on_loginpushButton_released(); // 调用相同的槽函数
+    }
+}
+
 
 bool Login::eventFilter(QObject *obj, QEvent *event) {
     if (obj == ui->touxiang && event->type() == QEvent::MouseButtonDblClick) {
         QString fileName = QFileDialog::getOpenFileName(this, "选择头像", "", "Images (*.png *.jpg *.jpeg *.bmp)");
         if (!fileName.isEmpty()) {
             QPixmap pixmap(fileName);
-            ui->touxiang->setPixmap(pixmap.scaled(ui->touxiang->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            ui->touxiang->setPixmap(Rounded(pixmap).scaled(ui->touxiang->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
             // 更新头像路径到成员信息
             (*IT)->setimage(fileName.toStdString());
         }
@@ -113,8 +149,12 @@ void Login::on_messagepushButton_released()
     ui->name_1 ->setText(QString::fromStdString((*IT)->getuser()));
     ui->email->setText(QString::fromStdString((*IT)->getemail()));
     ui->phone->setText(QString::number((*IT)->getphone()));
+
+
     pix=QPixmap(QString::fromStdString((*IT)->getimage()));
-    ui->touxiang->setPixmap(pix);
+    //头像设置为圆形
+    ui->touxiang->setPixmap(Rounded(pix));
+    ui->touxiang->setFixedSize(100, 100);
 
 
 
@@ -166,15 +206,16 @@ void Login::on_tradeesc_released()
 
 void Login::on_passwordlineEdit_textChanged(const QString &arg1)
 {
-
-    ui->loginleft->setPixmap(pixl1);
-    ui->loginright->setPixmap(pixr2);
+        ui->loginleft->setPixmap(pixl1);
+        ui->loginright->setPixmap(pixr2);
 }
+
 
 
 
 void Login::on_passwordlineEdit_editingFinished()
 {
+
     ui->loginleft->setPixmap(pixl);
 
     ui->loginright->setPixmap(pixr);
@@ -242,7 +283,20 @@ void Login::on_editmessage_released()
     dialog.setText1(QString::number((*IT)->getphone()));//电话
     dialog.setText2(QString::fromStdString((*IT)->getemail()));//邮箱
     dialog.setText3(QString::fromStdString((*IT)->getuser()));//用户名
-    if(dialog.exec()==QDialog::Accepted)
+    if(dialog.exec()==QDialog::Accepted&&dialog.getText4().toStdString()==(*IT)->getpassword())//原密码输入正确
+    {
+        //更新信息
+        (*IT)->setemail(dialog.getText2().toStdString());
+        (*IT)->setphone(dialog.getText1().toLongLong());
+        (*IT)->setuser(dialog.getText3().toStdString());
+        (*IT)->setpassword(dialog.getText5().toStdString());
+        //个人资料界面更新
+        ui->name_1 ->setText(QString::fromStdString((*IT)->getuser()));
+        ui->email->setText(QString::fromStdString((*IT)->getemail()));
+        ui->phone->setText(QString::number((*IT)->getphone()));
+        QMessageBox::information(this,"xx","修改成功");
+    }
+    else if(dialog.getText4().isEmpty())//原密码输入为空，密码不修改
     {
         //更新信息
         (*IT)->setemail(dialog.getText2().toStdString());
@@ -252,6 +306,11 @@ void Login::on_editmessage_released()
         ui->name_1 ->setText(QString::fromStdString((*IT)->getuser()));
         ui->email->setText(QString::fromStdString((*IT)->getemail()));
         ui->phone->setText(QString::number((*IT)->getphone()));
+        QMessageBox::information(this,"xx","修改成功");
+    }
+    else if(!dialog.getText4().isEmpty()&&dialog.getText4().toStdString()!=(*IT)->getpassword())//原密码输入错误
+    {
+        QMessageBox::warning(this,"warn","原密码输入错误，请重新输入");
     }
 }
 
@@ -410,4 +469,33 @@ void Login::on_pushButton_12_clicked()
     msg.setText(message);
     msg.exec();
 }
+
+
+
+void Login::on_radioButton_2_toggled(bool checked)
+{
+    if (ui->radioButton_2->isChecked()) {
+        ui->assign_password_edit->setEchoMode(QLineEdit::Normal); // 显示密码
+        ui->confirm_password_edit->setEchoMode(QLineEdit::Normal);
+
+    } else {
+        ui->assign_password_edit->setEchoMode(QLineEdit::Password); // 隐藏密码
+        ui->confirm_password_edit->setEchoMode(QLineEdit::Password);
+
+    }
+}
+
+void Login::onTextEdited()
+{
+    // 每次编辑文本时，设置显示文本几百毫秒
+    ui->passwordlineEdit->setEchoMode(QLineEdit::Normal);
+    timer->start(500);  // 500毫秒后隐藏文本
+}
+
+void Login::hideText()
+{
+    // 隐藏文本，将echoMode设置为Password
+    ui->passwordlineEdit->setEchoMode(QLineEdit::Password);
+}
+
 

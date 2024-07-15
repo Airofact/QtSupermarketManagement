@@ -8,6 +8,10 @@
 #include <memory>
 #include <QFileDialog>
 #include <QMouseEvent>
+#include <QPainter>
+#include <QKeyEvent>
+#include <QTimer>
+
 #include "editdialog.h"
 #include"Inventory.h"
 #include"find.h"
@@ -22,11 +26,14 @@ class Login : public QMainWindow
     Q_OBJECT
 
 public:
-    Login(QWidget *parent = nullptr);
+    explicit Login(QWidget *parent = nullptr);
     ~Login();
     QStringList good;
     QStringList trade;
     Ui::find *find_ui;
+
+    QPixmap Rounded(QPixmap &pix);//将图片设置为圆形
+    void keyPressEvent(QKeyEvent *event) override;//登录界面敲击回车执行登录操作
 
 
 private slots:
@@ -91,6 +98,12 @@ private slots:
 
     void on_pushButton_12_clicked();
 
+    void on_radioButton_2_toggled(bool checked);
+
+    void onTextEdited();
+    void hideText();
+
+
 private:
     Ui::Login *ui;
     QPixmap pixl;
@@ -99,6 +112,8 @@ private:
     QPixmap pixr2;
 
     QPixmap pix;//头像
+    QTimer *timer;//计时器
+
     //人员信息
     std::vector<std::unique_ptr<Member>> members;
     //用于记录所登录的用户

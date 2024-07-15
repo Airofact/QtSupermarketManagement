@@ -21,6 +21,10 @@ public:
     void setText2(const QString &text);
     QString getText3() const;
     void setText3(const QString &text);
+    QString getText4() const;
+    void setText4(const QString &text);
+    QString getText5() const;
+    void setText5(const QString &text);
 
 private slots:
 
@@ -31,6 +35,8 @@ private:
     QString text1;
     QString text2;
     QString text3;
+    QString text4;
+    QString text5;
 
 };
 

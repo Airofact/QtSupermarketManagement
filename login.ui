@@ -22,66 +22,9 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>8</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="loginpage">
-       <widget class="QLineEdit" name="userlineEdit">
-        <property name="geometry">
-         <rect>
-          <x>220</x>
-          <y>80</y>
-          <width>191</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="frame">
-         <bool>true</bool>
-        </property>
-        <property name="placeholderText">
-         <string>用户名</string>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="passwordlineEdit">
-        <property name="geometry">
-         <rect>
-          <x>220</x>
-          <y>130</y>
-          <width>191</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="placeholderText">
-         <string>密码</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="loginpushButton">
-        <property name="geometry">
-         <rect>
-          <x>160</x>
-          <y>200</y>
-          <width>101</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>登录</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>C:/Users/heavens/Pictures/Screenshots/屏幕截图 2024-07-07 145647.png</normaloff>C:/Users/heavens/Pictures/Screenshots/屏幕截图 2024-07-07 145647.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>25</width>
-          <height>25</height>
-         </size>
-        </property>
-       </widget>
        <widget class="QLabel" name="loginlabel">
         <property name="geometry">
          <rect>
@@ -137,80 +80,133 @@
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QLabel" name="login_user">
+       <widget class="QWidget" name="">
         <property name="geometry">
          <rect>
-          <x>119</x>
+          <x>150</x>
           <y>80</y>
-          <width>81</width>
-          <height>31</height>
+          <width>321</width>
+          <height>101</height>
          </rect>
         </property>
-        <property name="font">
-         <font>
-          <family>楷体</family>
-         </font>
-        </property>
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;用户名&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="textFormat">
-         <enum>Qt::AutoText</enum>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="wordWrap">
-         <bool>false</bool>
-        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QLabel" name="login_user">
+             <property name="font">
+              <font>
+               <family>楷体</family>
+              </font>
+             </property>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;用户名&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="textFormat">
+              <enum>Qt::AutoText</enum>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="wordWrap">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="login_password">
+             <property name="font">
+              <font>
+               <family>楷体</family>
+               <pointsize>14</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;密码&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QLineEdit" name="userlineEdit">
+             <property name="frame">
+              <bool>true</bool>
+             </property>
+             <property name="placeholderText">
+              <string>用户名</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="passwordlineEdit">
+             <property name="placeholderText">
+              <string>密码</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
        </widget>
-       <widget class="QLabel" name="login_password">
+       <widget class="QWidget" name="">
         <property name="geometry">
          <rect>
-          <x>120</x>
-          <y>130</y>
-          <width>71</width>
-          <height>31</height>
+          <x>160</x>
+          <y>220</y>
+          <width>311</width>
+          <height>71</height>
          </rect>
         </property>
-        <property name="font">
-         <font>
-          <family>楷体</family>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;密码&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="create">
-        <property name="geometry">
-         <rect>
-          <x>320</x>
-          <y>200</y>
-          <width>101</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>注册</string>
-        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QPushButton" name="loginpushButton">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>登录</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>C:/Users/heavens/Pictures/Screenshots/屏幕截图 2024-07-07 145647.png</normaloff>C:/Users/heavens/Pictures/Screenshots/屏幕截图 2024-07-07 145647.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>25</width>
+             <height>25</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="create">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>注册</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </widget>
       <widget class="QWidget" name="createpage">
        <widget class="QPushButton" name="confirm">
         <property name="geometry">
          <rect>
-          <x>230</x>
-          <y>270</y>
+          <x>250</x>
+          <y>290</y>
           <width>121</width>
           <height>31</height>
          </rect>
@@ -232,120 +228,88 @@
          <string>返回</string>
         </property>
        </widget>
-       <widget class="QLabel" name="assign_user">
+       <widget class="QRadioButton" name="radioButton_2">
         <property name="geometry">
          <rect>
-          <x>180</x>
-          <y>70</y>
-          <width>45</width>
-          <height>19</height>
+          <x>270</x>
+          <y>260</y>
+          <width>73</width>
+          <height>18</height>
          </rect>
         </property>
         <property name="text">
-         <string>用户名</string>
+         <string>显示密码</string>
         </property>
        </widget>
-       <widget class="QLabel" name="confirm_password">
-        <property name="geometry">
-         <rect>
-          <x>180</x>
-          <y>130</y>
-          <width>60</width>
-          <height>19</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>确认密码</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="assign_password">
-        <property name="geometry">
-         <rect>
-          <x>180</x>
-          <y>100</y>
-          <width>30</width>
-          <height>19</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>密码</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="assign_phonenumber">
+       <widget class="QWidget" name="">
         <property name="geometry">
          <rect>
           <x>170</x>
-          <y>200</y>
-          <width>60</width>
-          <height>19</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>联系方式</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="assign_email">
-        <property name="geometry">
-         <rect>
-          <x>180</x>
-          <y>160</y>
-          <width>31</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>邮箱</string>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="confirm_password_edit">
-        <property name="geometry">
-         <rect>
-          <x>300</x>
-          <y>130</y>
-          <width>171</width>
-          <height>25</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="assign_phonenumber_edit">
-        <property name="geometry">
-         <rect>
-          <x>300</x>
-          <y>200</y>
-          <width>171</width>
-          <height>25</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="assign_email_edit">
-        <property name="geometry">
-         <rect>
-          <x>300</x>
-          <y>170</y>
-          <width>171</width>
-          <height>25</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="assign_password_edit">
-        <property name="geometry">
-         <rect>
-          <x>300</x>
-          <y>100</y>
-          <width>171</width>
-          <height>25</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="user_edit">
-        <property name="geometry">
-         <rect>
-          <x>300</x>
           <y>60</y>
-          <width>171</width>
-          <height>25</height>
+          <width>291</width>
+          <height>191</height>
          </rect>
         </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QLabel" name="assign_user">
+             <property name="text">
+              <string>用户名</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="assign_password">
+             <property name="text">
+              <string>密码</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="confirm_password">
+             <property name="text">
+              <string>确认密码</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="assign_email">
+             <property name="text">
+              <string>邮箱</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="assign_phonenumber">
+             <property name="text">
+              <string>联系方式</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QLineEdit" name="user_edit"/>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="assign_password_edit"/>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="confirm_password_edit"/>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="assign_email_edit"/>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="assign_phonenumber_edit"/>
+           </item>
+          </layout>
+         </item>
+        </layout>
        </widget>
       </widget>
       <widget class="QWidget" name="messagepage">
@@ -383,11 +347,52 @@
        <widget class="QLabel" name="touxiang">
         <property name="geometry">
          <rect>
-          <x>270</x>
-          <y>20</y>
-          <width>111</width>
-          <height>81</height>
+          <x>260</x>
+          <y>10</y>
+          <width>100</width>
+          <height>100</height>
          </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="sizeIncrement">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="baseSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+					border-radius: 50px;
+
+   					background-color: rgb(64, 65, 66); /* 设置背景颜色 */
+
+}</string>
+        </property>
+        <property name="lineWidth">
+         <number>0</number>
         </property>
         <property name="text">
          <string/>
@@ -395,11 +400,20 @@
         <property name="scaledContents">
          <bool>true</bool>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+        </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
+        <property name="indent">
+         <number>0</number>
+        </property>
        </widget>
        <widget class="QLabel" name="name_1">
         <property name="geometry">
          <rect>
-          <x>220</x>
+          <x>180</x>
           <y>120</y>
           <width>231</width>
           <height>31</height>
@@ -408,67 +422,8 @@
         <property name="text">
          <string/>
         </property>
-       </widget>
-       <widget class="QLabel" name="phone">
-        <property name="geometry">
-         <rect>
-          <x>190</x>
-          <y>180</y>
-          <width>251</width>
-          <height>51</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QLabel" name="email">
-        <property name="geometry">
-         <rect>
-          <x>200</x>
-          <y>250</y>
-          <width>261</width>
-          <height>51</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_2">
-        <property name="geometry">
-         <rect>
-          <x>110</x>
-          <y>190</y>
-          <width>81</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>联系方式</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_5">
-        <property name="geometry">
-         <rect>
-          <x>110</x>
-          <y>260</y>
-          <width>51</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>邮箱</string>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
        <widget class="QPushButton" name="editmessage">
@@ -483,6 +438,68 @@
         <property name="text">
          <string>编辑个人资料</string>
         </property>
+       </widget>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>180</y>
+          <width>341</width>
+          <height>131</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLabel" name="phone">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="email">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>180</y>
+          <width>71</width>
+          <height>131</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>联系方式</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>邮箱</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </widget>
       <widget class="QWidget" name="menupage">
@@ -1033,7 +1050,7 @@
      <x>0</x>
      <y>0</y>
      <width>682</width>
-     <height>21</height>
+     <height>17</height>
     </rect>
    </property>
   </widget>

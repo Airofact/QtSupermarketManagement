@@ -39,11 +39,28 @@ void EditDialog::setText3(const QString &text) {
     ui->lineEdit_3->setText(text);
 }
 
+QString EditDialog::getText4() const {
+    return text4;
+}
+
+void EditDialog::setText4(const QString &text) {
+    ui->lineEdit_4->setText(text);
+}
+
+QString EditDialog::getText5() const {
+    return text5;
+}
+
+void EditDialog::setText5(const QString &text) {
+    ui->lineEdit_5->setText(text);
+}
 
 void EditDialog::on_confirm_released() {
     text1 = ui->lineEdit->text();
     text2 = ui->lineEdit_2->text();
     text3 = ui->lineEdit_3->text();
+    text4 = ui->lineEdit_4->text();
+    text5 = ui->lineEdit_5->text();
     accept();
 }
 
