@@ -3,9 +3,13 @@
 #include <iostream>
 #include <QFile>
 
+QMap<uint,Inventory*> Inventory::m_regesteredInventory;
+
 Inventory::Inventory()
 {
     m_pInventory = new QHash<CargoType,int>();
+    setId(constructId());
+    registerInstance(this);
 }
 Inventory::~Inventory()
 {
@@ -16,15 +20,14 @@ Inventory::~Inventory()
 Inventory::Inventory(const Inventory& inventory)
 {
     m_pInventory = new QHash<CargoType,int>(*inventory.getInventory());
-    if(inventory.getId() != 0){
-        setId(QUuid::createUuid().toString().toInt());
-    }
+    setId(constructId());
+    registerInstance(this);
 }
-
 Inventory::Inventory(const QByteArray& json)
-    :Inventory()
 {
-    this->deserialize(json);
+    m_pInventory = new QHash<CargoType,int>();
+    deserialize(json);
+    registerInstance(this);
 }
 
 Inventory Inventory::fromFile(const QString& path){
@@ -36,6 +39,7 @@ Inventory Inventory::fromFile(const QString& path){
     return Inventory(json);
 }
 bool Inventory::toJsonObject(QJsonObject& json) const{
+    json.insert("id",QVariant(getId()).toJsonValue());
     for (const CargoType& type : m_pInventory->keys())
     {
         QJsonObject key;
@@ -132,22 +136,26 @@ bool Inventory::transferGoods(Inventory& other, const QString& name, int amount)
 
 bool Inventory::setId(unsigned int id)
 {
-    if (m_id != 0)
-    {
-        return false;
-    }
     m_id = id;
     return true;
 }
-
-uint Inventory::getNewId()
+uint Inventory::constructId()
 {
     return QUuid::createUuid().toString().toInt();
 }
-
 uint Inventory::getId() const
 {
     return m_id;
+}
+
+Inventory* Inventory::getInstance(uint id){
+    if(!m_regesteredInventory.contains(id)){
+        return nullptr;
+    }
+    return m_regesteredInventory[id];
+}
+void Inventory::registerInstance(Inventory* inventory){
+    m_regesteredInventory[inventory->getId()] = inventory;
 }
 
 const QHash<CargoType,int>* Inventory::getInventory() const

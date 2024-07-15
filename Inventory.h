@@ -8,24 +8,24 @@
 #include <QJsonDocument>
 
 #include "CargoType.h"
-#include "IEntity.h"
 
 /**
  *  库存类
  * 支持 增加、修改、删除、查找商品
  */
-class Inventory: public SerializableQObject, public IEntity<Inventory>
+class Inventory: public SerializableQObject
 {
     Q_OBJECT
     friend class Login;
 
 private:
     QHash<CargoType,int> *m_pInventory;
-    unsigned int m_id;
+    static QMap<uint,Inventory*> m_regesteredInventory;
+    uint m_id;
 public:
 	Inventory();
 	~Inventory();
-	Inventory(const Inventory &inventory);
+    Inventory(const Inventory &inventory);
     Inventory(const QByteArray& json);
     //序列化
     bool toJsonObject(QJsonObject& json) const override;
@@ -48,15 +48,16 @@ public:
     bool contains(const CargoType& type) const;
     // 交换商品
     bool transferGoods(Inventory& other, const QString& name, int amout = 0);
+    // 返回库存列表
+    const QHash<CargoType, int>* getInventory() const;
     // 测试打印用
     void print() const;
     // 获取id
-    uint getId() const override;
-    bool setId(uint id) override;
-    uint getNewId() override;
-// protected:
-// 	// 返回库存列表
-    const QHash<CargoType, int>* getInventory() const;
+    uint getId() const;
+    bool setId(uint id);
+    uint constructId();
+    static Inventory* getInstance(uint id);
+    static void registerInstance(Inventory* instance);
 };
 
 #endif
