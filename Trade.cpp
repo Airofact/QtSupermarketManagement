@@ -31,6 +31,7 @@ bool Trade::toJsonObject(QJsonObject &json) const
         QJsonObject inven;
         i.second.toJsonObject(inven);
         obj.insert("inventory", inven);
+        obj.insert("linkedInventory",QVariant(m_pLinkedInventory->getId()).toJsonValue());
         list.append(obj);
     }
     json.insert("tradeList", list);
@@ -56,6 +57,11 @@ bool Trade::fromJsonObject(const QJsonObject &json)
         Inventory inven;
         inven.fromJsonObject(obj["inventory"].toObject());
         m_pTradeList->push_back(std::make_pair(name, inven));
+        uint id = obj["linkedInventory"].toInt();
+        Inventory* linkedInventory = Inventory::getInstance(id);
+        if(linkedInventory == nullptr)
+            return false;
+        m_pLinkedInventory = linkedInventory;
     }
     return true;
 }
