@@ -61,11 +61,14 @@ bool Inventory::fromJsonObject(const QJsonObject& json){
 
 CargoType* Inventory::getCargoType(const QString &name) const
 {
+
     for(CargoType& type:m_pInventory->keys()){
+        // qDebug()<<type.getName()<<name;
         if(type.getName() == name){
             return &type;
         }
     }
+    // qDebug()<<"1";
     return nullptr;
 }
 

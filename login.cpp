@@ -50,12 +50,14 @@ Login::Login(QWidget *parent)
     ui->goodtable->setHorizontalHeaderLabels(good);
     ui->goodtable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-    trade<<"商品名称"<<"数量浮动"<< "原因";
-    ui->tradetable->setColumnCount(trade.count());
-    ui->tradetable->setHorizontalHeaderLabels(trade);
+    tradeHead<<"顾客名称"<<"购买记录";
+    ui->tradetable->setColumnCount(tradeHead.count());
+    ui->tradetable->setHorizontalHeaderLabels(tradeHead);
     ui->tradetable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
+    ui->tableWidgetTradeList->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     b=new Inventory;
+    trade=new Trade(b);
 }
 
 Login::~Login()
@@ -325,7 +327,12 @@ void Login::on_pushButton_5_clicked()
 
 void Login::on_pushButton_6_clicked()
 {
-    ui->stackedWidget->setCurrentWidget(ui->page_2);
+    ui->stackedWidget->setCurrentWidget(ui->page_3);
+    ui->tableWidgetTradeList->clearContents();
+    ui->tableWidgetTradeList->setRowCount(0);
+    ui->lineEditAmount->clear();
+    ui->lineEditCustomer->clear();
+    ui->lineEditName->clear();
 }
 
 
@@ -428,5 +435,100 @@ void Login::on_pushButton_12_clicked()
     QString message=QString("该商品的类型为：%1\n该商品的价格为：%2\n该商品的数量为：%3").arg(get->getType()).arg(get->getPrice()).arg(b->getAmount(ui->findedit->text()));
     msg.setText(message);
     msg.exec();
+}
+
+
+Inventory *tempInven = nullptr;
+void helperUpdateTempInvenTable(QTableWidget* tableWidget){
+    if(!tempInven)return;
+    tableWidget->clearContents();
+    tableWidget->setRowCount(0);
+
+    QHash<CargoType, int>::const_iterator i;
+    for(i=tempInven->getInventory()->begin();i!=tempInven->getInventory()->end();++i)
+    {
+        tableWidget->insertRow(tableWidget->rowCount());
+        QTableWidgetItem *nameItem = new QTableWidgetItem(i.key().getName());
+        tableWidget->setItem(tableWidget->rowCount()-1, 0, nameItem);
+        QTableWidgetItem *amountItem = new QTableWidgetItem(QString::number(i.value()));
+        tableWidget->setItem(tableWidget->rowCount()-1, 1, amountItem);
+    }
+
+}
+void Login::on_PBAddGood_clicked()
+{
+    if(!tempInven){
+        tempInven = new Inventory;
+    }
+
+    QString name = ui->lineEditName->text();
+    int amount = ui->lineEditAmount->text().toInt();
+    CargoType newCargo = * b->getCargoType(name);
+
+    tempInven->addGoods(newCargo,amount);
+    // tempInven->print();
+    helperUpdateTempInvenTable(ui->tableWidgetTradeList);
+    // ui->tableWidgetTradeList->insertRow(ui->tableWidgetTradeList->rowCount());
+    // QTableWidgetItem *name2Item = new QTableWidgetItem(ui->lineEditCustomer->text());
+    // ui->tradetable->setItem(ui->tradetable->rowCount()-1, 0, name2Item);
+    // QTableWidgetItem *reason2Item = new QTableWidgetItem(ui->lineEditAmount->text());
+    // ui->tradetable->setItem(ui->tradetable->rowCount()-1, 1, reason2Item);
+
+}
+
+
+void Login::on_PBRemoveGood_clicked()
+{
+    if(!tempInven)return;
+    QString name = ui->lineEditName->text();
+    int amount = ui->lineEditAmount->text().toInt();
+    if(!tempInven->getCargoType(name)){
+        qDebug()<<"cannot find it";
+        return;
+    }
+    tempInven->removeGoods(name,amount);
+        helperUpdateTempInvenTable(ui->tableWidgetTradeList);
+}
+
+
+void Login::on_PBCancel_clicked()
+{
+    // qDebug()<<"1";
+    delete tempInven;
+    tempInven = nullptr;
+    ui->stackedWidget->setCurrentWidget(ui->tradepage);
+
+}
+
+void Login::updateTradeTable(){
+    auto i = trade->getTradeList()->begin();
+    for(;i!=trade->getTradeList()->end();++i)
+    {
+        ui->tradetable->insertRow(ui->tradetable->rowCount());
+        QTableWidgetItem *nameItem = new QTableWidgetItem(i->first);
+        ui->tradetable->setItem(ui->tradetable->rowCount()-1, 0, nameItem);
+        QString detailStr = "";
+        for(auto j = i->second.getInventory()->begin();j!=i->second.getInventory()->end();j++){
+            detailStr.append(j.key().getName());
+            detailStr.append("[");
+            detailStr.append(QString::number(j.value()));
+            detailStr.append("] ");
+        }
+
+        QTableWidgetItem *detailItem = new QTableWidgetItem(detailStr);// goodsname[20]
+        ui->tradetable->setItem(ui->tradetable->rowCount()-1, 1, detailItem);
+    }
+}
+
+void Login::on_PBConfirm_clicked()
+{
+    if(!tempInven)return;
+    Inventory copy =*tempInven;
+\
+    trade->addTradeListItem(ui->lineEditCustomer->text(),copy);
+
+    // trade->printTradeList();
+    on_PBCancel_clicked();
+    // updateTradeTable();
 }
 

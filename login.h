@@ -11,6 +11,7 @@
 #include "editdialog.h"
 #include"Inventory.h"
 #include"find.h"
+#include"Trade.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class Login;
@@ -25,7 +26,7 @@ public:
     Login(QWidget *parent = nullptr);
     ~Login();
     QStringList good;
-    QStringList trade;
+    QStringList tradeHead;
     Ui::find *find_ui;
 
 
@@ -94,6 +95,16 @@ private slots:
 
     void updateTable();
 
+    void on_PBAddGood_clicked();
+
+    void on_PBRemoveGood_clicked();
+
+    void on_PBCancel_clicked();
+
+    void on_PBConfirm_clicked();
+
+    void updateTradeTable();
+
 private:
     Ui::Login *ui;
     QPixmap pixl;
@@ -109,5 +120,6 @@ private:
 
     Inventory *b;
     QHash<CargoType, int>::const_iterator i;
+    Trade *trade;
 };
 #endif // LOGIN_H
