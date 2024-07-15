@@ -53,12 +53,11 @@ public:
     // 测试打印用
     void print() const;
     // 获取id
-    uint getId() const override;
-    bool setId(uint id) override;
-    uint getNewId() override;
-    // protected:
-    // 	// 返回库存列表
-    const QHash<CargoType, int>* getInventory() const;
+    uint getId() const;
+    bool setId(uint id);
+    uint constructId();
+    static Inventory* getInstance(uint id);
+    static void registerInstance(Inventory* inventory);
 };
 
 #endif
