@@ -3,23 +3,25 @@
 
 #include<QMap>
 #include<QHash>
-#include "CargoType.h"
 #include <QObject>
 #include <QJsonObject>
 #include <QJsonDocument>
+
+#include "CargoType.h"
+#include "IEntity.h"
 
 /**
  *  库存类
  * 支持 增加、修改、删除、查找商品
  */
-class Inventory: public SerializableQObject
+class Inventory: public SerializableQObject, public IEntity<Inventory>
 {
     Q_OBJECT
     friend class Login;
 
 private:
     QHash<CargoType,int> *m_pInventory;
-
+    unsigned int m_id;
 public:
 	Inventory();
 	~Inventory();
@@ -46,11 +48,15 @@ public:
     bool contains(const CargoType& type) const;
     // 交换商品
     bool transferGoods(Inventory& other, const QString& name, int amout = 0);
+    // 测试打印用
+    void print() const;
+    // 获取id
+    unsigned int getId() const;
+protected:
 	// 返回库存列表
     const QHash<CargoType, int>* getInventory() const;
-	// 测试打印用
-    void print() const;
-
+    // 设置id
+    bool setId(unsigned int id);
 };
 
 #endif

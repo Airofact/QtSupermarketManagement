@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     CargoType.cpp \
+    IEntity.cpp \
     Inventory.cpp \
     SerializableQObject.cpp \
     Trade.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
 
 HEADERS += \
     CargoType.h \
+    IEntity.h \
     ISerializable.h \
     Inventory.h \
     SerializableQObject.h \
