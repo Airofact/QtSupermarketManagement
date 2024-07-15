@@ -334,6 +334,7 @@ void Login::updateTable(){
 
 void Login::on_import_2_clicked()
 {
+    QMessageBox msg;
     ui->goodtable->clearContents();
     ui->goodtable->setRowCount(0);
     QString file_name=QString("./Data/goods.json");
@@ -341,6 +342,8 @@ void Login::on_import_2_clicked()
     b = new Inventory(Inventory::fromFile(file_name));
     trade->setLinkedInventory(b);
     updateTable();
+    msg.setText("成功导入");
+    msg.exec();
     //ToDo: MessageBox 成功导入
 }
 
@@ -353,9 +356,12 @@ void Login::on_pushButton_clicked()
 
 void Login::on_pushButton_2_clicked()
 {
+    QMessageBox msg;
     CargoType a(ui->name->text(),(ui->price->text()).toDouble(),ui->type->text());
     b->addGoods(a,(ui->amount->text()).toInt());
     updateTable();
+    msg.setText("添加成功");
+    msg.exec();
     //ToDo: MessageBox 添加成功
 }
 
@@ -383,6 +389,7 @@ void Login::on_pushButton_6_clicked()
 
 void Login::on_export_2_clicked()
 {
+    QMessageBox msg;
     QByteArray data;
     QString file_name=QString("./Data/goods.json");
     QFile file(file_name);
@@ -390,6 +397,8 @@ void Login::on_export_2_clicked()
     b->serialize(data);
     file.write(data);
     file.close();
+    msg.setText("成功导出");
+    msg.exec();
     // ToDo: MessageBox 成功导出
 }
 
@@ -409,7 +418,11 @@ void Login::on_pushButton_9_clicked()
 void Login::on_pushButton_7_clicked()
 {
     QString name = ui->editgood->text();
-    if( b->getCargoType(name) == nullptr){
+    QMessageBox msg;
+    if( b->getCargoType(name) == nullptr)
+    {
+        msg.setText("无法找到该书");
+        msg.exec();
         //ToDo: MessageBox 无法找到该书
         return;
     }
@@ -417,20 +430,27 @@ void Login::on_pushButton_7_clicked()
     int amount = !(ui->editamount->text()).toInt() ? b->getAmount(name) : (ui->editprice->text()).toDouble();
     b->editGoods(name, price, amount);
     updateTable();
+    msg.setText("修改成功");
+    msg.exec();
     //ToDo: MessageBox 修改成功
 }
 
 
 void Login::on_pushButton_10_clicked()
 {
-
+    QMessageBox msg;
     QString name = ui->editgood->text();
-    if( b->getCargoType(name) == nullptr){
+    if( b->getCargoType(name) == nullptr)
+    {
+        msg.setText("无法找到该书");
+        msg.exec();
         //ToDo: MessageBox 无法找到该书
         return;
     }
     b->removeGoods(name,(ui->editamount->text()).toInt());
     updateTable();
+    msg.setText("删除成功");
+    msg.exec();
     //ToDo: MessageBox 删除成功
 }
 
@@ -603,18 +623,27 @@ void Login::on_lineEditSearch_textChanged(const QString &arg1)
 
 void Login::on_PBUpdate_clicked()
 {
+    QMessageBox msg;
     updateTable();
+    msg.setText("更新成功");
+    msg.exec();
     //ToDo: MessageBox 更新成功
 }
 
 void Login::on_PBExport_clicked()
 {
+    QMessageBox msg;
+    msg.setText("导出成功");
+    msg.exec();
     //ToDo: MessageBox 导出成功
 }
 
 
 void Login::on_PBImport_clicked()
 {
+    QMessageBox msg;
+    msg.setText("导入成功");
+    msg.exec();
     //ToDo: MessageBox 导入成功
 }
 

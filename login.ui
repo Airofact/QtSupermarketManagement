@@ -22,7 +22,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>8</number>
       </property>
       <widget class="QWidget" name="loginpage">
        <widget class="QLabel" name="loginlabel">
@@ -1438,7 +1438,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <x>0</x>
      <y>0</y>
      <width>897</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
