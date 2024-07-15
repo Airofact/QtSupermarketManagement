@@ -11,7 +11,7 @@
 #include <QPainter>
 #include <QKeyEvent>
 #include <QTimer>
-
+#include<QTableWidget>
 #include "editdialog.h"
 #include"Inventory.h"
 #include"find.h"
@@ -120,6 +120,8 @@ private slots:
 
 
     void on_pushButton_14_clicked();
+
+    void on_tradetable_itemDoubleClicked(QTableWidgetItem *item);
 
 private:
     Ui::Login *ui;

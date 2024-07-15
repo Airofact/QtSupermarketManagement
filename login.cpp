@@ -50,14 +50,14 @@ Login::Login(QWidget *parent)
     ui->goodtable->setHorizontalHeaderLabels(good);
     ui->goodtable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-    tradeHead<<"顾客名称"<<"购买记录";
+    tradeHead<<"顾客名称"<<"购入商品"<<"商品数量"<<"商品类型";
     ui->tradetable->setColumnCount(tradeHead.count());
     ui->tradetable->setHorizontalHeaderLabels(tradeHead);
     ui->tradetable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     // ui->tableWidgetTradeList->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     b=new Inventory;
-    // trade=new Trade(b);
+    trade=new Trade(b);
 }
 
 Login::~Login()
@@ -559,16 +559,16 @@ void Login::on_PBAddGood_clicked()
         Inventory *newInven = new Inventory;
 
         if(goods){
-            // newInven->addGoods(*goods,amount);
+            newInven->addGoods(*goods,amount);
                   qDebug()<<'1';
-            // trade->addTradeListItem(name,*newInven);
+            trade->addTradeListItem(name,*newInven);
 
         }
     }
-    // else if (goods){
-    //     trade->getTradeListItem(name)->second.addGoods(*goods,amount);
-    // }
-    // trade->printTradeList();
+     else if (goods){
+         trade->getTradeListItem(name)->second.addGoods(*goods,amount);
+    }
+     trade->printTradeList();
 }
 
 
@@ -588,48 +588,48 @@ void Login::on_PBRemoveGood_clicked()
 
 void Login::on_PBCancel_clicked()
 {
-    // // qDebug()<<"1";
-    // delete tempInven;
-    // tempInven = nullptr;
-    // ui->stackedWidget->setCurrentWidget(ui->tradepage);
+     qDebug()<<"1";
+     delete tempInven;
+     tempInven = nullptr;
+     ui->stackedWidget->setCurrentWidget(ui->tradepage);
 
 }
 
 void Login::updateTradeTable(){
-    // auto i = trade->getTradeList()->begin();
-    // for(;i!=trade->getTradeList()->end();++i)
-    // {
-    //     ui->tradetable->insertRow(ui->tradetable->rowCount());
-    //     QTableWidgetItem *nameItem = new QTableWidgetItem(i->first);
-    //     ui->tradetable->setItem(ui->tradetable->rowCount()-1, 0, nameItem);
-    //     QString detailStr = "";
-    //     for(auto j = i->second.getInventory()->begin();j!=i->second.getInventory()->end();j++){
-    //         detailStr.append(j.key().getName());
-    //         detailStr.append("[");
-    //         detailStr.append(QString::number(j.value()));
-    //         detailStr.append("] ");
-    //     }
-
-    //     QTableWidgetItem *detailItem = new QTableWidgetItem(detailStr);// goodsname[20]
-    //     ui->tradetable->setItem(ui->tradetable->rowCount()-1, 1, detailItem);
-    // }
+    auto i = trade->getTradeList()->begin();
+    for(;i!=trade->getTradeList()->end();++i)
+    {
+        for(auto j = i->second.getInventory()->begin();j!=i->second.getInventory()->end();j++)
+        {
+            ui->tradetable->insertRow(ui->tradetable->rowCount());
+            QTableWidgetItem *customerItem = new QTableWidgetItem(i->first);
+            ui->tradetable->setItem(ui->tradetable->rowCount()-1, 0, customerItem);
+            QTableWidgetItem *nameItem = new QTableWidgetItem(j.key().getName());
+            ui->tradetable->setItem(ui->tradetable->rowCount()-1, 1, nameItem);
+            QTableWidgetItem *amountItem = new QTableWidgetItem(QString::number(j.value()));
+            ui->tradetable->setItem(ui->tradetable->rowCount()-1, 2, amountItem);
+            QTableWidgetItem *typeItem = new QTableWidgetItem(j.key().getType());
+            ui->tradetable->setItem(ui->tradetable->rowCount()-1, 3, typeItem);
+        }
+    }
 }
 
 void Login::on_PBConfirm_clicked()
 {
-    // if(!tempInven)return;
-    // Inventory copy =*tempInven;
-
-    // trade->addTradeListItem(ui->lineEditCustomer->text(),copy);
-
-    // trade->printTradeList();
-    // on_PBCancel_clicked();
-    // updateTradeTable();
+    ui->stackedWidget->setCurrentWidget(ui->tradepage);
+    updateTradeTable();
 }
 
 
 void Login::on_pushButton_14_clicked()
 {
     // trade->getLinkedInventory()->print();
+}
+
+
+void Login::on_tradetable_itemDoubleClicked(QTableWidgetItem *item)
+{
+    int row=ui->tradetable->currentRow();
+    ui->tradetable->removeRow(row);
 }
 

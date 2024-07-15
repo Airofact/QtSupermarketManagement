@@ -22,7 +22,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>10</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="loginpage">
        <widget class="QLabel" name="loginlabel">
@@ -176,7 +176,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../heavens/Pictures/Screenshots/屏幕截图 2024-07-07 145647.png</normaloff>../../../../heavens/Pictures/Screenshots/屏幕截图 2024-07-07 145647.png</iconset>
+             <normaloff>../../heavens/Pictures/Screenshots/屏幕截图 2024-07-07 145647.png</normaloff>../../heavens/Pictures/Screenshots/屏幕截图 2024-07-07 145647.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -1277,7 +1277,7 @@
      <x>0</x>
      <y>0</y>
      <width>682</width>
-     <height>24</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
