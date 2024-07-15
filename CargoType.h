@@ -11,7 +11,7 @@
  */
 class CargoType: public SerializableQObject
 {
-	Q_OBJECT
+    Q_OBJECT
     friend class Login;
     friend class Inventory;
 private:
@@ -31,16 +31,16 @@ public:
     //反序列化
     bool fromJsonObject(const QJsonObject& json) override;
     static CargoType fromFile(const QString& path);
-	// 获得商品名称 例getName();
+    // 获得商品名称 例getName();
     QString getName() const;
-	// 获得商品价格 例getPrice();
-	double getPrice() const;
-	// 获得商品类型 例getType();
+    // 获得商品价格 例getPrice();
+    double getPrice() const;
+    // 获得商品类型 例getType();
     QString getType() const;
-	// 设置商品名称 例setName("Apple");
+    // 设置商品名称 例setName("Apple");
     void setName(const QString &name);
-	// 设置商品价格 例setPrice(1.5);
-	void setPrice(double price);
+    // 设置商品价格 例setPrice(1.5);
+    void setPrice(double price);
     // 设置标签
     void setType(const QString& type);
     // 判断两个货物是否为同一种

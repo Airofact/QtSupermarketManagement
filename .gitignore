@@ -62,3 +62,6 @@ ui_*.h
 
 QtSupermarketManagement.pro
 *.json
+
+#允许上传一个数据备份文件夹
+!Data/*.json
