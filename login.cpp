@@ -3,10 +3,17 @@
 #include<QDir>
 #include"CargoType.h"
 #include"Inventory.h"
+
+#include <filesystem>
+
 Login::Login(QWidget *parent)
     : QMainWindow(parent)
     ,ui(new Ui::Login)
 {
+    std::string folderPath = "Data";
+    std::filesystem::create_directory(folderPath);
+
+
     ui->setupUi(this);
     // 初始化定时器
     timer = new QTimer(this);
@@ -329,11 +336,12 @@ void Login::on_import_2_clicked()
 {
     ui->goodtable->clearContents();
     ui->goodtable->setRowCount(0);
-    QString file_name=QString("./goods.json");
+    QString file_name=QString("./Data/goods.json");
     delete b;
     b = new Inventory(Inventory::fromFile(file_name));
     trade->setLinkedInventory(b);
     updateTable();
+    //ToDo: MessageBox 成功导入
 }
 
 
@@ -348,6 +356,7 @@ void Login::on_pushButton_2_clicked()
     CargoType a(ui->name->text(),(ui->price->text()).toDouble(),ui->type->text());
     b->addGoods(a,(ui->amount->text()).toInt());
     updateTable();
+    //ToDo: MessageBox 添加成功
 }
 
 
@@ -375,12 +384,13 @@ void Login::on_pushButton_6_clicked()
 void Login::on_export_2_clicked()
 {
     QByteArray data;
-    QString file_name=QString("goods.json");
+    QString file_name=QString("./Data/goods.json");
     QFile file(file_name);
     file.open(QIODevice::WriteOnly);
     b->serialize(data);
     file.write(data);
     file.close();
+    // ToDo: MessageBox 成功导出
 }
 
 
@@ -398,17 +408,30 @@ void Login::on_pushButton_9_clicked()
 
 void Login::on_pushButton_7_clicked()
 {
-    b->editGoods(ui->editgood->text(), (ui->editprice->text()).toDouble(), (ui->editamount->text()).toInt());
+    QString name = ui->editgood->text();
+    if( b->getCargoType(name) == nullptr){
+        //ToDo: MessageBox 无法找到该书
+        return;
+    }
+    double price =!(ui->editprice->text()).toDouble() ? b->getCargoType(name)->getPrice() : (ui->editprice->text()).toDouble();
+    int amount = !(ui->editamount->text()).toInt() ? b->getAmount(name) : (ui->editprice->text()).toDouble();
+    b->editGoods(name, price, amount);
     updateTable();
+    //ToDo: MessageBox 修改成功
 }
 
 
 void Login::on_pushButton_10_clicked()
 {
 
-    b->removeGoods(ui->editgood->text(),(ui->editamount->text()).toInt());
+    QString name = ui->editgood->text();
+    if( b->getCargoType(name) == nullptr){
+        //ToDo: MessageBox 无法找到该书
+        return;
+    }
+    b->removeGoods(name,(ui->editamount->text()).toInt());
     updateTable();
-
+    //ToDo: MessageBox 删除成功
 }
 
 
@@ -500,8 +523,8 @@ void Login::on_PBAddGood_clicked()
             // qDebug()<<newInven->getAmount(goodsName);
         }
     }
-     else if (goods){
-         trade->getTradeListItem(name)->second.addGoods(*goods,amount);
+    else if (goods){
+        trade->getTradeListItem(name)->second.addGoods(*goods,amount);
     }
 
 }
@@ -510,9 +533,9 @@ void Login::on_PBAddGood_clicked()
 
 void Login::on_PBCancel_clicked()
 {
-     delete tempInven;
-     tempInven = nullptr;
-     ui->stackedWidget->setCurrentWidget(ui->tradepage);
+    delete tempInven;
+    tempInven = nullptr;
+    ui->stackedWidget->setCurrentWidget(ui->tradepage);
 }
 
 void Login::updateTradeTable(){
@@ -581,5 +604,18 @@ void Login::on_lineEditSearch_textChanged(const QString &arg1)
 void Login::on_PBUpdate_clicked()
 {
     updateTable();
+    //ToDo: MessageBox 更新成功
 }
+
+void Login::on_PBExport_clicked()
+{
+    //ToDo: MessageBox 导出成功
+}
+
+
+void Login::on_PBImport_clicked()
+{
+    //ToDo: MessageBox 导入成功
+}
+
 

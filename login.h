@@ -125,6 +125,13 @@ private slots:
 
     void on_PBUpdate_clicked();
 
+
+
+    void on_PBExport_clicked();
+
+    void on_PBImport_clicked();
+
+
 private:
     Ui::Login *ui;
     QPixmap pixl;
