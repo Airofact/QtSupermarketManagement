@@ -91,6 +91,9 @@ private slots:
 
     void on_pushButton_12_clicked();
 
+
+    void updateTable();
+
 private:
     Ui::Login *ui;
     QPixmap pixl;

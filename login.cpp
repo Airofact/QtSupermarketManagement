@@ -40,7 +40,7 @@ Login::Login(QWidget *parent)
 
 
     //预设信息
-    members.emplace_back(new Member("乔鹏博","yun211314","798370740@qq.com",15525125026LL,".\\pics\\ph3.png"));
+    members.emplace_back(new Member("1","1","798370740@qq.com",15525125026LL,".\\pics\\ph3.png"));
 
     //双击图片进行更改
     ui->touxiang->installEventFilter(this);
@@ -255,26 +255,45 @@ void Login::on_editmessage_released()
     }
 }
 
+void Login::updateTable(){
+    ui->goodtable->clearContents();
+    ui->goodtable->setRowCount(0);
+    QHash<CargoType, int>::const_iterator i;
+    for(i=b->m_pInventory->begin();i!=b->m_pInventory->end();++i)
+    {
+        ui->goodtable->insertRow(ui->goodtable->rowCount());
+        QTableWidgetItem *nameItem = new QTableWidgetItem(i.key().getName());
+        ui->goodtable->setItem(ui->goodtable->rowCount()-1, 0, nameItem);
+        QTableWidgetItem *priceItem = new QTableWidgetItem(QString::number(i.key().getPrice(),'f',2));
+        ui->goodtable->setItem(ui->goodtable->rowCount()-1, 2, priceItem);
+        QTableWidgetItem *typeItem = new QTableWidgetItem(i.key().getType());
+        ui->goodtable->setItem(ui->goodtable->rowCount()-1, 1, typeItem);
+        QTableWidgetItem *amountItem = new QTableWidgetItem(QString::number(i.value()));
+        ui->goodtable->setItem(ui->goodtable->rowCount()-1, 3, amountItem);
+    }
+}
 
 void Login::on_import_2_clicked()
 {
     ui->goodtable->clearContents();
     ui->goodtable->setRowCount(0);
-    QString file_name=QString("F:/qt homework/QtSupermarketManagement/QtSupermarketManagement/QtSupermarketManagement/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/goods.json");
-    Inventory a = Inventory::fromFile(file_name);
-    QHash<CargoType, int>::const_iterator i;
-    for(i=a.m_pInventory->begin();i!=a.m_pInventory->end();++i)
-    {
-    ui->goodtable->insertRow(ui->goodtable->rowCount());
-    QTableWidgetItem *nameItem = new QTableWidgetItem(i.key().getName());
-    ui->goodtable->setItem(ui->goodtable->rowCount()-1, 0, nameItem);
-    QTableWidgetItem *priceItem = new QTableWidgetItem(QString::number(i.key().getPrice(),'f',2));
-    ui->goodtable->setItem(ui->goodtable->rowCount()-1, 2, priceItem);
-    QTableWidgetItem *typeItem = new QTableWidgetItem(i.key().getType());
-    ui->goodtable->setItem(ui->goodtable->rowCount()-1, 1, typeItem);
-    QTableWidgetItem *amountItem = new QTableWidgetItem(QString::number(i.value()));
-    ui->goodtable->setItem(ui->goodtable->rowCount()-1, 3, amountItem);
-    }
+    QString file_name=QString("./goods.json");
+    delete b;
+    b = new Inventory(Inventory::fromFile(file_name));
+    updateTable();
+    // QHash<CargoType, int>::const_iterator i;
+    // for(i=b->m_pInventory->begin();i!=b->m_pInventory->end();++i)
+    // {
+    // ui->goodtable->insertRow(ui->goodtable->rowCount());
+    // QTableWidgetItem *nameItem = new QTableWidgetItem(i.key().getName());
+    // ui->goodtable->setItem(ui->goodtable->rowCount()-1, 0, nameItem);
+    // QTableWidgetItem *priceItem = new QTableWidgetItem(QString::number(i.key().getPrice(),'f',2));
+    // ui->goodtable->setItem(ui->goodtable->rowCount()-1, 2, priceItem);
+    // QTableWidgetItem *typeItem = new QTableWidgetItem(i.key().getType());
+    // ui->goodtable->setItem(ui->goodtable->rowCount()-1, 1, typeItem);
+    // QTableWidgetItem *amountItem = new QTableWidgetItem(QString::number(i.value()));
+    // ui->goodtable->setItem(ui->goodtable->rowCount()-1, 3, amountItem);
+    // }
 }
 
 
@@ -288,11 +307,7 @@ void Login::on_pushButton_2_clicked()
 {
     CargoType a(ui->name->text(),(ui->price->text()).toDouble(),ui->type->text());
     b->addGoods(a,(ui->amount->text()).toInt());
-    ui->name->clear();
-    ui->price->clear();
-    ui->amount->clear();
-    ui->type->clear();
-
+    updateTable();
 }
 
 
@@ -358,31 +373,35 @@ void Login::on_pushButton_9_clicked()
 
 void Login::on_pushButton_7_clicked()
 {
-    QString file_name=QString("F:/qt homework/QtSupermarketManagement/QtSupermarketManagement/QtSupermarketManagement/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/goods.json");
-    Inventory edit = Inventory::fromFile(file_name);
-    edit.editGoods(ui->editgood->text(), (ui->editprice->text()).toDouble(), (ui->editamount->text()).toInt());            //此处有bug，无法改变price值
-    QByteArray data;
-    QString file1=QString("goods.json");
-    QFile file(file1);
-    file.open(QIODevice::WriteOnly);
-    edit.serialize(data);
-    file.write(data);
-    file.close();
+
+    // QString file_name=QString("./goods.json");
+    // Inventory edit = Inventory::fromFile(file_name);
+    b->editGoods(ui->editgood->text(), (ui->editprice->text()).toDouble(), (ui->editamount->text()).toInt());
+    updateTable();
+        // QByteArray data;
+        // QString file1=QString("goods.json");
+        // QFile file(file1);
+        // file.open(QIODevice::WriteOnly);
+        // edit.serialize(data);
+        // file.write(data);
+        // file.close();
 }
 
 
 void Login::on_pushButton_10_clicked()
 {
-    QString file_name=QString("F:/qt homework/QtSupermarketManagement/QtSupermarketManagement/QtSupermarketManagement/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/goods.json");
-    Inventory edit = Inventory::fromFile(file_name);
-    edit.removeGoods(ui->editgood->text(),(ui->editamount->text()).toInt());
-    QByteArray data;
-    QString file1=QString("goods.json");
-    QFile file(file1);
-    file.open(QIODevice::WriteOnly);
-    edit.serialize(data);
-    file.write(data);
-    file.close();
+
+    // QString file_name=QString("./goods.json");
+    // Inventory edit = Inventory::fromFile(file_name);
+    b->removeGoods(ui->editgood->text(),(ui->editamount->text()).toInt());
+    updateTable();
+    // QByteArray data;
+    // QString file1=QString("goods.json");
+    // QFile file(file1);
+    // file.open(QIODevice::WriteOnly);
+    // edit.serialize(data);
+    // file.write(data);
+    // file.close();
 }
 
 
@@ -401,12 +420,12 @@ void Login::on_pushButton_11_clicked()
 
 void Login::on_pushButton_12_clicked()
 {
-    int num;
+    CargoType *get;
     QMessageBox msg;
-    QString file_name=QString("F:/qt homework/QtSupermarketManagement/QtSupermarketManagement/QtSupermarketManagement/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/goods.json");
-    Inventory find = Inventory::fromFile(file_name);
-    num=find.getAmount(ui->findedit->text());
-    QString message=QString("该商品的数量为：%1").arg(num);
+    // QString file_name=QString("./goods.json");
+    // Inventory find = Inventory::fromFile(file_name);
+    get=b->getCargoType(ui->findedit->text());
+    QString message=QString("该商品的类型为：%1\n该商品的价格为：%2\n该商品的数量为：%3").arg(get->getType()).arg(get->getPrice()).arg(b->getAmount(ui->findedit->text()));
     msg.setText(message);
     msg.exec();
 }
