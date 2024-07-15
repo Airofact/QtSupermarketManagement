@@ -48,8 +48,9 @@ Login::Login(QWidget *parent)
     // ui->tradetable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
 
-    //预设信息
-    members.emplace_back(new Member("乔鹏博","yun211314","798370740@qq.com",15525125026LL,":/pics/ph3.png"));
+
+    members.emplace_back(new Member("1","1","798370740@qq.com",15525125026LL,".\\pics\\ph3.png"));
+
 
     //双击图片进行更改
     ui->touxiang->installEventFilter(this);
@@ -61,12 +62,14 @@ Login::Login(QWidget *parent)
     ui->goodtable->setHorizontalHeaderLabels(good);
     ui->goodtable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-    trade<<"商品名称"<<"数量浮动"<< "原因";
-    ui->tradetable->setColumnCount(trade.count());
-    ui->tradetable->setHorizontalHeaderLabels(trade);
+    tradeHead<<"顾客名称"<<"购买记录";
+    ui->tradetable->setColumnCount(tradeHead.count());
+    ui->tradetable->setHorizontalHeaderLabels(tradeHead);
     ui->tradetable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
+    ui->tableWidgetTradeList->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     b=new Inventory;
+    // trade=new Trade(b);
 }
 
 Login::~Login()
@@ -283,57 +286,79 @@ void Login::on_editmessage_released()
     dialog.setText1(QString::number((*IT)->getphone()));//电话
     dialog.setText2(QString::fromStdString((*IT)->getemail()));//邮箱
     dialog.setText3(QString::fromStdString((*IT)->getuser()));//用户名
-    if(dialog.exec()==QDialog::Accepted&&dialog.getText4().toStdString()==(*IT)->getpassword())//原密码输入正确
-    {
-        //更新信息
-        (*IT)->setemail(dialog.getText2().toStdString());
-        (*IT)->setphone(dialog.getText1().toLongLong());
-        (*IT)->setuser(dialog.getText3().toStdString());
-        (*IT)->setpassword(dialog.getText5().toStdString());
-        //个人资料界面更新
-        ui->name_1 ->setText(QString::fromStdString((*IT)->getuser()));
-        ui->email->setText(QString::fromStdString((*IT)->getemail()));
-        ui->phone->setText(QString::number((*IT)->getphone()));
-        QMessageBox::information(this,"xx","修改成功");
+    if (dialog.exec()==QDialog::Accepted){
+        if(dialog.getText4().toStdString()==(*IT)->getpassword())//原密码输入正确
+        {
+            //更新信息
+            (*IT)->setemail(dialog.getText2().toStdString());
+            (*IT)->setphone(dialog.getText1().toLongLong());
+            (*IT)->setuser(dialog.getText3().toStdString());
+            (*IT)->setpassword(dialog.getText5().toStdString());
+            //个人资料界面更新
+            ui->name_1 ->setText(QString::fromStdString((*IT)->getuser()));
+            ui->email->setText(QString::fromStdString((*IT)->getemail()));
+            ui->phone->setText(QString::number((*IT)->getphone()));
+            QMessageBox::information(this,"xx","修改成功");
+        }
+        else if(dialog.getText4().isEmpty())//原密码输入为空，密码不修改
+        {
+            //更新信息
+            (*IT)->setemail(dialog.getText2().toStdString());
+            (*IT)->setphone(dialog.getText1().toLongLong());
+            (*IT)->setuser(dialog.getText3().toStdString());
+            //个人资料界面更新
+            ui->name_1 ->setText(QString::fromStdString((*IT)->getuser()));
+            ui->email->setText(QString::fromStdString((*IT)->getemail()));
+            ui->phone->setText(QString::number((*IT)->getphone()));
+            QMessageBox::information(this,"xx","修改成功");
+        }
+        else if(!dialog.getText4().isEmpty()&&dialog.getText4().toStdString()!=(*IT)->getpassword())//原密码输入错误
+        {
+            QMessageBox::warning(this,"warn","原密码输入错误，请重新输入");
+        }
     }
-    else if(dialog.getText4().isEmpty())//原密码输入为空，密码不修改
-    {
-        //更新信息
-        (*IT)->setemail(dialog.getText2().toStdString());
-        (*IT)->setphone(dialog.getText1().toLongLong());
-        (*IT)->setuser(dialog.getText3().toStdString());
-        //个人资料界面更新
-        ui->name_1 ->setText(QString::fromStdString((*IT)->getuser()));
-        ui->email->setText(QString::fromStdString((*IT)->getemail()));
-        ui->phone->setText(QString::number((*IT)->getphone()));
-        QMessageBox::information(this,"xx","修改成功");
-    }
-    else if(!dialog.getText4().isEmpty()&&dialog.getText4().toStdString()!=(*IT)->getpassword())//原密码输入错误
-    {
-        QMessageBox::warning(this,"warn","原密码输入错误，请重新输入");
-    }
+
 }
 
+void Login::updateTable(){
+    ui->goodtable->clearContents();
+    ui->goodtable->setRowCount(0);
+    QHash<CargoType, int>::const_iterator i;
+    for(i=b->m_pInventory->begin();i!=b->m_pInventory->end();++i)
+    {
+        ui->goodtable->insertRow(ui->goodtable->rowCount());
+        QTableWidgetItem *nameItem = new QTableWidgetItem(i.key().getName());
+        ui->goodtable->setItem(ui->goodtable->rowCount()-1, 0, nameItem);
+        QTableWidgetItem *priceItem = new QTableWidgetItem(QString::number(i.key().getPrice(),'f',2));
+        ui->goodtable->setItem(ui->goodtable->rowCount()-1, 2, priceItem);
+        QTableWidgetItem *typeItem = new QTableWidgetItem(i.key().getType());
+        ui->goodtable->setItem(ui->goodtable->rowCount()-1, 1, typeItem);
+        QTableWidgetItem *amountItem = new QTableWidgetItem(QString::number(i.value()));
+        ui->goodtable->setItem(ui->goodtable->rowCount()-1, 3, amountItem);
+    }
+}
 
 void Login::on_import_2_clicked()
 {
     ui->goodtable->clearContents();
     ui->goodtable->setRowCount(0);
-    QString file_name=QString("F:/qt homework/QtSupermarketManagement/QtSupermarketManagement/QtSupermarketManagement/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/goods.json");
-    Inventory a = Inventory::fromFile(file_name);
-    QHash<CargoType, int>::const_iterator i;
-    for(i=a.m_pInventory->begin();i!=a.m_pInventory->end();++i)
-    {
-    ui->goodtable->insertRow(ui->goodtable->rowCount());
-    QTableWidgetItem *nameItem = new QTableWidgetItem(i.key().getName());
-    ui->goodtable->setItem(ui->goodtable->rowCount()-1, 0, nameItem);
-    QTableWidgetItem *priceItem = new QTableWidgetItem(QString::number(i.key().getPrice(),'f',2));
-    ui->goodtable->setItem(ui->goodtable->rowCount()-1, 2, priceItem);
-    QTableWidgetItem *typeItem = new QTableWidgetItem(i.key().getType());
-    ui->goodtable->setItem(ui->goodtable->rowCount()-1, 1, typeItem);
-    QTableWidgetItem *amountItem = new QTableWidgetItem(QString::number(i.value()));
-    ui->goodtable->setItem(ui->goodtable->rowCount()-1, 3, amountItem);
-    }
+    QString file_name=QString("./goods.json");
+    delete b;
+    b = new Inventory(Inventory::fromFile(file_name));
+    updateTable();
+    // QHash<CargoType, int>::const_iterator i;
+    // for(i=b->m_pInventory->begin();i!=b->m_pInventory->end();++i)
+    // {
+    // ui->goodtable->insertRow(ui->goodtable->rowCount());
+    // QTableWidgetItem *nameItem = new QTableWidgetItem(i.key().getName());
+    // ui->goodtable->setItem(ui->goodtable->rowCount()-1, 0, nameItem);
+    // QTableWidgetItem *priceItem = new QTableWidgetItem(QString::number(i.key().getPrice(),'f',2));
+    // ui->goodtable->setItem(ui->goodtable->rowCount()-1, 2, priceItem);
+    // QTableWidgetItem *typeItem = new QTableWidgetItem(i.key().getType());
+    // ui->goodtable->setItem(ui->goodtable->rowCount()-1, 1, typeItem);
+    // QTableWidgetItem *amountItem = new QTableWidgetItem(QString::number(i.value()));
+    // ui->goodtable->setItem(ui->goodtable->rowCount()-1, 3, amountItem);
+    // }
 }
 
 
@@ -347,11 +372,7 @@ void Login::on_pushButton_2_clicked()
 {
     CargoType a(ui->name->text(),(ui->price->text()).toDouble(),ui->type->text());
     b->addGoods(a,(ui->amount->text()).toInt());
-    ui->name->clear();
-    ui->price->clear();
-    ui->amount->clear();
-    ui->type->clear();
-
+    updateTable();
 }
 
 
@@ -369,7 +390,12 @@ void Login::on_pushButton_5_clicked()
 
 void Login::on_pushButton_6_clicked()
 {
-    ui->stackedWidget->setCurrentWidget(ui->page_2);
+    ui->stackedWidget->setCurrentWidget(ui->page_3);
+    ui->tableWidgetTradeList->clearContents();
+    ui->tableWidgetTradeList->setRowCount(0);
+    ui->lineEditAmount->clear();
+    ui->lineEditCustomer->clear();
+    ui->lineEditName->clear();
 }
 
 
@@ -417,31 +443,27 @@ void Login::on_pushButton_9_clicked()
 
 void Login::on_pushButton_7_clicked()
 {
-    QString file_name=QString("F:/qt homework/QtSupermarketManagement/QtSupermarketManagement/QtSupermarketManagement/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/goods.json");
-    Inventory edit = Inventory::fromFile(file_name);
-    edit.editGoods(ui->editgood->text(), (ui->editprice->text()).toDouble(), (ui->editamount->text()).toInt());            //此处有bug，无法改变price值
-    QByteArray data;
-    QString file1=QString("goods.json");
-    QFile file(file1);
-    file.open(QIODevice::WriteOnly);
-    edit.serialize(data);
-    file.write(data);
-    file.close();
+
+    // QString file_name=QString("./goods.json");
+    // Inventory edit = Inventory::fromFile(file_name);
+    b->editGoods(ui->editgood->text(), (ui->editprice->text()).toDouble(), (ui->editamount->text()).toInt());
+    updateTable();
+        // QByteArray data;
+        // QString file1=QString("goods.json");
+        // QFile file(file1);
+        // file.open(QIODevice::WriteOnly);
+        // edit.serialize(data);
+        // file.write(data);
+        // file.close();
 }
 
 
 void Login::on_pushButton_10_clicked()
 {
-    QString file_name=QString("F:/qt homework/QtSupermarketManagement/QtSupermarketManagement/QtSupermarketManagement/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/goods.json");
-    Inventory edit = Inventory::fromFile(file_name);
-    edit.removeGoods(ui->editgood->text(),(ui->editamount->text()).toInt());
-    QByteArray data;
-    QString file1=QString("goods.json");
-    QFile file(file1);
-    file.open(QIODevice::WriteOnly);
-    edit.serialize(data);
-    file.write(data);
-    file.close();
+
+    b->removeGoods(ui->editgood->text(),(ui->editamount->text()).toInt());
+    updateTable();
+
 }
 
 
@@ -460,15 +482,16 @@ void Login::on_pushButton_11_clicked()
 
 void Login::on_pushButton_12_clicked()
 {
-    int num;
+    CargoType *get;
     QMessageBox msg;
-    QString file_name=QString("F:/qt homework/QtSupermarketManagement/QtSupermarketManagement/QtSupermarketManagement/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/goods.json");
-    Inventory find = Inventory::fromFile(file_name);
-    num=find.getAmount(ui->findedit->text());
-    QString message=QString("该商品的数量为：%1").arg(num);
+    // QString file_name=QString("./goods.json");
+    // Inventory find = Inventory::fromFile(file_name);
+    get=b->getCargoType(ui->findedit->text());
+    QString message=QString("该商品的类型为：%1\n该商品的价格为：%2\n该商品的数量为：%3").arg(get->getType()).arg(get->getPrice()).arg(b->getAmount(ui->findedit->text()));
     msg.setText(message);
     msg.exec();
 }
+
 
 
 
@@ -498,4 +521,99 @@ void Login::hideText()
     ui->passwordlineEdit->setEchoMode(QLineEdit::Password);
 }
 
+
+Inventory *tempInven = nullptr;
+
+void helperUpdateTempInvenTable(QTableWidget* tableWidget){
+    if(!tempInven)return;
+    tableWidget->clearContents();
+    tableWidget->setRowCount(0);
+
+    QHash<CargoType, int>::const_iterator i;
+    for(i=tempInven->getInventory()->begin();i!=tempInven->getInventory()->end();++i)
+    {
+        tableWidget->insertRow(tableWidget->rowCount());
+        QTableWidgetItem *nameItem = new QTableWidgetItem(i.key().getName());
+        tableWidget->setItem(tableWidget->rowCount()-1, 0, nameItem);
+        QTableWidgetItem *amountItem = new QTableWidgetItem(QString::number(i.value()));
+        tableWidget->setItem(tableWidget->rowCount()-1, 1, amountItem);
+    }
+
+}
+void Login::on_PBAddGood_clicked()
+{
+    // if(!tempInven){
+    //     tempInven = new Inventory;
+    // }
+
+    // QString name = ui->lineEditName->text();
+    // int amount = ui->lineEditAmount->text().toInt();
+    // CargoType newCargo = * b->getCargoType(name);
+
+    // tempInven->addGoods(newCargo,amount);
+    // tempInven->print();
+    helperUpdateTempInvenTable(ui->tableWidgetTradeList);
+    // ui->tableWidgetTradeList->insertRow(ui->tableWidgetTradeList->rowCount());
+    // QTableWidgetItem *name2Item = new QTableWidgetItem(ui->lineEditCustomer->text());
+    // ui->tradetable->setItem(ui->tradetable->rowCount()-1, 0, name2Item);
+    // QTableWidgetItem *reason2Item = new QTableWidgetItem(ui->lineEditAmount->text());
+    // ui->tradetable->setItem(ui->tradetable->rowCount()-1, 1, reason2Item);
+
+}
+
+
+void Login::on_PBRemoveGood_clicked()
+{
+    // if(!tempInven)return;
+    // QString name = ui->lineEditName->text();
+    // int amount = ui->lineEditAmount->text().toInt();
+    // if(!tempInven->getCargoType(name)){
+    //     qDebug()<<"cannot find it";
+    //     return;
+    // }
+    // tempInven->removeGoods(name,amount);
+    //     helperUpdateTempInvenTable(ui->tableWidgetTradeList);
+}
+
+
+void Login::on_PBCancel_clicked()
+{
+    // // qDebug()<<"1";
+    // delete tempInven;
+    // tempInven = nullptr;
+    // ui->stackedWidget->setCurrentWidget(ui->tradepage);
+
+}
+
+void Login::updateTradeTable(){
+    // auto i = trade->getTradeList()->begin();
+    // for(;i!=trade->getTradeList()->end();++i)
+    // {
+    //     ui->tradetable->insertRow(ui->tradetable->rowCount());
+    //     QTableWidgetItem *nameItem = new QTableWidgetItem(i->first);
+    //     ui->tradetable->setItem(ui->tradetable->rowCount()-1, 0, nameItem);
+    //     QString detailStr = "";
+    //     for(auto j = i->second.getInventory()->begin();j!=i->second.getInventory()->end();j++){
+    //         detailStr.append(j.key().getName());
+    //         detailStr.append("[");
+    //         detailStr.append(QString::number(j.value()));
+    //         detailStr.append("] ");
+    //     }
+
+    //     QTableWidgetItem *detailItem = new QTableWidgetItem(detailStr);// goodsname[20]
+    //     ui->tradetable->setItem(ui->tradetable->rowCount()-1, 1, detailItem);
+    // }
+}
+
+void Login::on_PBConfirm_clicked()
+{
+    // if(!tempInven)return;
+    // Inventory copy =*tempInven;
+
+    // trade->addTradeListItem(ui->lineEditCustomer->text(),copy);
+
+    // trade->printTradeList();
+    // on_PBCancel_clicked();
+    // updateTradeTable();
+}
 

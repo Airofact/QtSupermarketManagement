@@ -9,6 +9,7 @@ CargoType::CargoType(const QString &name, double price, const QString &type)
     : m_name(name), m_price(price), m_type(type)
 {
 }
+
 CargoType::CargoType(const CargoType &goods)
 {
     m_name = goods.m_name;

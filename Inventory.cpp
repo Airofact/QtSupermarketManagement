@@ -10,7 +10,7 @@ Inventory::Inventory()
 Inventory::~Inventory()
 {
 	if (m_pInventory != nullptr)
-	{
+    {
 		delete m_pInventory;
 	}
 }
@@ -18,6 +18,9 @@ Inventory::~Inventory()
 Inventory::Inventory(const Inventory& inventory)
 {
     m_pInventory = new QHash<CargoType,int>(*inventory.getInventory());
+    if(inventory.getId() != 0){
+        setId(QUuid::createUuid().toString().toInt());
+    }
 }
 
 Inventory::Inventory(const QByteArray& json)
@@ -61,16 +64,27 @@ bool Inventory::fromJsonObject(const QJsonObject& json){
 
 CargoType* Inventory::getCargoType(const QString &name) const
 {
+
     for(CargoType& type:m_pInventory->keys()){
+        // qDebug()<<type.getName()<<name;
         if(type.getName() == name){
             return &type;
         }
     }
+    // qDebug()<<"1";
     return nullptr;
 }
-
 int Inventory::getAmount(const QString& name) const {
     return (*m_pInventory)[*getCargoType(name)];
+}
+
+bool Inventory::contains(const QString& name) const
+{
+    return getCargoType(name) != nullptr;
+}
+bool Inventory::contains(const CargoType& type) const
+{
+    return m_pInventory->contains(type);
 }
 
 void Inventory::addGoods(const CargoType& type, int amount)
@@ -81,22 +95,12 @@ void Inventory::addGoods(const CargoType& type, int amount)
         m_pInventory->insert(type,amount);
     }
 }
-
-void Inventory::print() const
-{
-    for (const CargoType& type : m_pInventory->keys())
-	{
-        std::cout << type.getName().toStdString() << " " << type.getPrice() << " " << (*m_pInventory)[type] << std::endl;
-	}
-}
-
-void Inventory:: editGoods(const QString &name, double price, int amount)
+void Inventory::editGoods(const QString &name, double price, int amount)
 {
     CargoType* type = getCargoType(name);
     type->setPrice(price);
     (*m_pInventory)[*type] = amount;
 }
-
 void Inventory::removeGoods(const QString &name, int amount)
 {
     for (auto pair = m_pInventory->begin(); pair != m_pInventory->end(); ++pair)
@@ -119,15 +123,42 @@ void Inventory::removeGoods(const QString &name, int amount)
 		}
 	}
 }
-const QHash<CargoType,int>* Inventory::getInventory() const
-{
-	return m_pInventory;
-}
-
 bool Inventory::transferGoods(Inventory& other, const QString& name, int amount){
     this->removeGoods(name, amount);
     other.addGoods(*getCargoType(name),amount);
     return true;
 }
 
+bool Inventory::setId(unsigned int id)
+{
+    if (m_id != 0)
+    {
+        return false;
+    }
+    m_id = id;
+    return true;
+}
+
+uint Inventory::getNewId()
+{
+    return QUuid::createUuid().toString().toInt();
+}
+
+uint Inventory::getId() const
+{
+    return m_id;
+}
+
+const QHash<CargoType,int>* Inventory::getInventory() const
+{
+	return m_pInventory;
+}
+
+void Inventory::print() const
+{
+    for (const CargoType& type : m_pInventory->keys())
+    {
+        std::cout << type.getName().toStdString() << " " << type.getPrice() << " " << (*m_pInventory)[type] << std::endl;
+    }
+}
 
