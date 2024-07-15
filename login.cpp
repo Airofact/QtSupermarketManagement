@@ -372,24 +372,6 @@ void Login::on_pushButton_6_clicked()
 }
 
 
-void Login::on_pushButton_4_clicked()
-{
-    ui->tradetable->insertRow(ui->tradetable->rowCount());
-    QTableWidgetItem *name2Item = new QTableWidgetItem(ui->name_2->text());
-    ui->tradetable->setItem(ui->tradetable->rowCount()-1, 0, name2Item);
-    QTableWidgetItem *reason2Item = new QTableWidgetItem(ui->reason_2->text());
-    ui->tradetable->setItem(ui->tradetable->rowCount()-1, 2, reason2Item);
-    QTableWidgetItem *amount2Item = new QTableWidgetItem(ui->amount_2->text());
-    ui->tradetable->setItem(ui->tradetable->rowCount()-1, 1, amount2Item);
-    ui->name_2->clear();
-    ui->reason_2->clear();
-    ui->amount_2->clear();
-
-}
-
-
-
-
 void Login::on_export_2_clicked()
 {
     QByteArray data;
@@ -514,7 +496,6 @@ void Login::on_PBAddGood_clicked()
 
         if(goods){
             newInven->addGoods(*goods,amount);
-
             trade->addTradeListItem(name,*newInven);
         }
     }

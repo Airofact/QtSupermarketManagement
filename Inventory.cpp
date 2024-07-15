@@ -86,10 +86,10 @@ bool Inventory::contains(const CargoType& type) const
 void Inventory::addGoods(const CargoType& type, int amount)
 {
     if(m_pInventory->contains(type)){
-        //qDebug() << "found";
+        // qDebug() << "found";
         (*m_pInventory)[type] += amount;
     }else{
-           //qDebug() << "NOT found";
+           // qDebug() << "NOT found";
         m_pInventory->insert(type,amount);
     }
 }
