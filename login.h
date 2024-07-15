@@ -123,6 +123,8 @@ private slots:
 
     void on_tradetable_itemDoubleClicked(QTableWidgetItem *item);
 
+    void on_lineEditSearch_textChanged(const QString &arg1);
+
 private:
     Ui::Login *ui;
     QPixmap pixl;

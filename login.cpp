@@ -531,24 +531,6 @@ void helperUpdateTempInvenTable(QTableWidget* tableWidget){
 }
 void Login::on_PBAddGood_clicked()
 {
-
-    // helperUpdateTempInvenTable(ui->tableWidgetTradeList);
-    // if(!tempInven){
-    //     tempInven = new Inventory;
-    // }
-
-    // QString name = ui->lineEditName->text();
-    // int amount = ui->lineEditAmount->text().toInt();
-    // CargoType newCargo = * b->getCargoType(name);
-
-    // tempInven->addGoods(newCargo,amount);
-    // tempInven->print();
-
-    // ui->tableWidgetTradeList->insertRow(ui->tableWidgetTradeList->rowCount());
-    // QTableWidgetItem *name2Item = new QTableWidgetItem(ui->lineEditCustomer->text());
-    // ui->tradetable->setItem(ui->tradetable->rowCount()-1, 0, name2Item);
-    // QTableWidgetItem *reason2Item = new QTableWidgetItem(ui->lineEditAmount->text());
-    // ui->tradetable->setItem(ui->tradetable->rowCount()-1, 1, reason2Item);
     QString name = ui->lineEditCustomer->text();
     QString goodsName = ui->lineEditName->text();
     int amount = ui->lineEditAmount->text().toInt();
@@ -574,28 +556,19 @@ void Login::on_PBAddGood_clicked()
 
 void Login::on_PBRemoveGood_clicked()
 {
-    // if(!tempInven)return;
-    // QString name = ui->lineEditName->text();
-    // int amount = ui->lineEditAmount->text().toInt();
-    // if(!tempInven->getCargoType(name)){
-    //     qDebug()<<"cannot find it";
-    //     return;
-    // }
-    // tempInven->removeGoods(name,amount);
-    //     helperUpdateTempInvenTable(ui->tableWidgetTradeList);
 }
 
 
 void Login::on_PBCancel_clicked()
 {
-     qDebug()<<"1";
      delete tempInven;
      tempInven = nullptr;
      ui->stackedWidget->setCurrentWidget(ui->tradepage);
-
 }
 
 void Login::updateTradeTable(){
+    ui->tradetable->clearContents();
+    ui->tradetable->setRowCount(0);
     auto i = trade->getTradeList()->begin();
     for(;i!=trade->getTradeList()->end();++i)
     {
@@ -630,6 +603,35 @@ void Login::on_pushButton_14_clicked()
 void Login::on_tradetable_itemDoubleClicked(QTableWidgetItem *item)
 {
     int row=ui->tradetable->currentRow();
-    ui->tradetable->removeRow(row);
+    QTableWidgetItem* customerItem = ui->tradetable->item(row, 0);
+    QTableWidgetItem* goodsItem = ui->tradetable->item(row, 1);
+    trade->getTradeListItem(customerItem->text())->second.removeGoods(goodsItem->text());
+    updateTradeTable();
+
+}
+
+
+void Login::on_lineEditSearch_textChanged(const QString &arg1)
+{
+    if(arg1.isEmpty()){
+        updateTradeTable();return;
+    }
+    auto getItem = trade->getTradeListItem(arg1);
+    if(!getItem)return;
+    ui->tradetable->clearContents();
+    ui->tradetable->setRowCount(0);
+
+    for(auto j = getItem->second.getInventory()->begin();j!=getItem->second.getInventory()->end();j++)
+    {
+        ui->tradetable->insertRow(ui->tradetable->rowCount());
+        QTableWidgetItem *customerItem = new QTableWidgetItem(getItem->first);
+        ui->tradetable->setItem(ui->tradetable->rowCount()-1, 0, customerItem);
+        QTableWidgetItem *nameItem = new QTableWidgetItem(j.key().getName());
+        ui->tradetable->setItem(ui->tradetable->rowCount()-1, 1, nameItem);
+        QTableWidgetItem *amountItem = new QTableWidgetItem(QString::number(j.value()));
+        ui->tradetable->setItem(ui->tradetable->rowCount()-1, 2, amountItem);
+        QTableWidgetItem *typeItem = new QTableWidgetItem(j.key().getType());
+        ui->tradetable->setItem(ui->tradetable->rowCount()-1, 3, typeItem);
+    }
 }
 

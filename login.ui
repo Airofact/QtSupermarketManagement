@@ -694,8 +694,8 @@
        <widget class="QLabel" name="tradelabel">
         <property name="geometry">
          <rect>
-          <x>250</x>
-          <y>10</y>
+          <x>240</x>
+          <y>-10</y>
           <width>71</width>
           <height>61</height>
          </rect>
@@ -743,6 +743,16 @@
         </property>
         <property name="text">
          <string>更新</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEditSearch">
+        <property name="geometry">
+         <rect>
+          <x>240</x>
+          <y>60</y>
+          <width>201</width>
+          <height>27</height>
+         </rect>
         </property>
        </widget>
       </widget>
@@ -1277,7 +1287,7 @@
      <x>0</x>
      <y>0</y>
      <width>682</width>
-     <height>25</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>
