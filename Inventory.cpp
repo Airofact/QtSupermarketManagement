@@ -32,6 +32,9 @@ Inventory::Inventory(const QByteArray& json)
 
 Inventory Inventory::fromFile(const QString& path){
     QFile file(path);
+    if(!file.exists()){
+        return Inventory();
+    }
     if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
         return Inventory();
     }
@@ -107,26 +110,26 @@ void Inventory::removeGoods(const QString &name, int amount)
 {
 
     for (auto pair = m_pInventory->begin(); pair != m_pInventory->end(); ++pair)
-	{
+    {
 
         if (pair.key().getName() == name)
-		{
-			if (amount == 0)
+        {
+            if (amount == 0)
             {
                 m_pInventory->erase(pair);
-			}
-			else
-			{
+            }
+            else
+            {
 
                 pair.value() -= amount;
                 if (pair.value() <= 0)
-				{
+                {
                     m_pInventory->erase(pair);
-				}
-			}
-			break;
-		}
-	}
+                }
+            }
+            break;
+        }
+    }
 }
 bool Inventory::transferGoods(Inventory& other, const QString& name, int amount){
     this->removeGoods(name, amount);
@@ -160,7 +163,7 @@ void Inventory::registerInstance(Inventory* inventory){
 
 const QHash<CargoType,int>* Inventory::getInventory() const
 {
-	return m_pInventory;
+    return m_pInventory;
 }
 
 void Inventory::print() const

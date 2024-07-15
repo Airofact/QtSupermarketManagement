@@ -2,9 +2,6 @@
 #include<QJsonDocument>
 
 bool SerializableQObject::serialize(QByteArray& json) const{
-    if(json==nullptr||json.isEmpty()){
-        return false;
-    }
     QJsonObject jsonObj;
     this->toJsonObject(jsonObj);
     QJsonDocument jsonDoc(jsonObj);

@@ -147,7 +147,7 @@ private:
     //用于记录所登录的用户
     std::vector<std::unique_ptr<Member>>::iterator IT;
 
-    Inventory *b;
+    Inventory *m_pDisplayingInventory;
     QHash<CargoType, int>::const_iterator i;
     Trade *trade;
 };

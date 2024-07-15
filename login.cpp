@@ -62,8 +62,8 @@ Login::Login(QWidget *parent)
     ui->tradetable->setHorizontalHeaderLabels(tradeHead);
     ui->tradetable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-    b=new Inventory;
-    trade=new Trade(b);
+    m_pDisplayingInventory=new Inventory;
+    trade=new Trade(m_pDisplayingInventory);
 }
 
 Login::~Login()
@@ -318,7 +318,7 @@ void Login::updateTable(){
     ui->goodtable->clearContents();
     ui->goodtable->setRowCount(0);
     QHash<CargoType, int>::const_iterator i;
-    for(i=b->m_pInventory->begin();i!=b->m_pInventory->end();++i)
+    for(i=m_pDisplayingInventory->m_pInventory->begin();i!=m_pDisplayingInventory->m_pInventory->end();++i)
     {
         ui->goodtable->insertRow(ui->goodtable->rowCount());
         QTableWidgetItem *nameItem = new QTableWidgetItem(i.key().getName());
@@ -334,16 +334,14 @@ void Login::updateTable(){
 
 void Login::on_import_2_clicked()
 {
-    QMessageBox msg;
     ui->goodtable->clearContents();
     ui->goodtable->setRowCount(0);
-    QString file_name=QString("./Data/goods.json");
-    delete b;
-    b = new Inventory(Inventory::fromFile(file_name));
-    trade->setLinkedInventory(b);
+    QString file_name= QFileDialog::getOpenFileName(this, "Load JSON", "", "JSON Files (*.json)");
+    delete m_pDisplayingInventory;
+    m_pDisplayingInventory = new Inventory(Inventory::fromFile(file_name));
+    trade->setLinkedInventory(m_pDisplayingInventory);
     updateTable();
-    msg.setText("成功导入");
-    msg.exec();
+    QMessageBox::information(this,"","成功导入");
     //ToDo: MessageBox 成功导入
 }
 
@@ -358,7 +356,7 @@ void Login::on_pushButton_2_clicked()
 {
     QMessageBox msg;
     CargoType a(ui->name->text(),(ui->price->text()).toDouble(),ui->type->text());
-    b->addGoods(a,(ui->amount->text()).toInt());
+    m_pDisplayingInventory->addGoods(a,(ui->amount->text()).toInt());
     updateTable();
     msg.setText("添加成功");
     msg.exec();
@@ -389,16 +387,19 @@ void Login::on_pushButton_6_clicked()
 
 void Login::on_export_2_clicked()
 {
-    QMessageBox msg;
     QByteArray data;
-    QString file_name=QString("./Data/goods.json");
-    QFile file(file_name);
+    QString path=QFileDialog::getSaveFileName(this, "Save JSON", "", "JSON Files (*.json)");
+    if(path.isEmpty())
+    {
+        QMessageBox::warning(this,"","导出失败");
+        return;
+    }
+    QFile file(path);
     file.open(QIODevice::WriteOnly);
-    b->serialize(data);
+    m_pDisplayingInventory->serialize(data);
     file.write(data);
     file.close();
-    msg.setText("成功导出");
-    msg.exec();
+    QMessageBox::information(this,"","成功导出");
     // ToDo: MessageBox 成功导出
 }
 
@@ -419,16 +420,16 @@ void Login::on_pushButton_7_clicked()
 {
     QString name = ui->editgood->text();
     QMessageBox msg;
-    if( b->getCargoType(name) == nullptr)
+    if( m_pDisplayingInventory->getCargoType(name) == nullptr)
     {
-        msg.setText("无法找到该书");
+        msg.setText("无法找到该商品");
         msg.exec();
         //ToDo: MessageBox 无法找到该书
         return;
     }
-    double price =!(ui->editprice->text()).toDouble() ? b->getCargoType(name)->getPrice() : (ui->editprice->text()).toDouble();
-    int amount = !(ui->editamount->text()).toInt() ? b->getAmount(name) : (ui->editprice->text()).toDouble();
-    b->editGoods(name, price, amount);
+    double price =!(ui->editprice->text()).toDouble() ? m_pDisplayingInventory->getCargoType(name)->getPrice() : (ui->editprice->text()).toDouble();
+    int amount = !(ui->editamount->text()).toInt() ? m_pDisplayingInventory->getAmount(name) : (ui->editprice->text()).toDouble();
+    m_pDisplayingInventory->editGoods(name, price, amount);
     updateTable();
     msg.setText("修改成功");
     msg.exec();
@@ -440,14 +441,14 @@ void Login::on_pushButton_10_clicked()
 {
     QMessageBox msg;
     QString name = ui->editgood->text();
-    if( b->getCargoType(name) == nullptr)
+    if( m_pDisplayingInventory->getCargoType(name) == nullptr)
     {
-        msg.setText("无法找到该书");
+        msg.setText("无法找到该商品");
         msg.exec();
         //ToDo: MessageBox 无法找到该书
         return;
     }
-    b->removeGoods(name,(ui->editamount->text()).toInt());
+    m_pDisplayingInventory->removeGoods(name,(ui->editamount->text()).toInt());
     updateTable();
     msg.setText("删除成功");
     msg.exec();
@@ -472,8 +473,8 @@ void Login::on_pushButton_12_clicked()
 {
     CargoType *get;
     QMessageBox msg;
-    get=b->getCargoType(ui->findedit->text());
-    QString message=QString("该商品的类型为：%1\n该商品的价格为：%2\n该商品的数量为：%3").arg(get->getType()).arg(get->getPrice()).arg(b->getAmount(ui->findedit->text()));
+    get=m_pDisplayingInventory->getCargoType(ui->findedit->text());
+    QString message=QString("该商品的类型为：%1\n该商品的价格为：%2\n该商品的数量为：%3").arg(get->getType()).arg(get->getPrice()).arg(m_pDisplayingInventory->getAmount(ui->findedit->text()));
     msg.setText(message);
     msg.exec();
 }
@@ -532,7 +533,7 @@ void Login::on_PBAddGood_clicked()
     QString goodsName = ui->lineEditName->text();
     int amount = ui->lineEditAmount->text().toInt();
 
-    CargoType* goods = b->getCargoType(goodsName);
+    CargoType* goods = m_pDisplayingInventory->getCargoType(goodsName);
 
     if(!trade->getTradeListItem(name)){
         Inventory *newInven = new Inventory;
