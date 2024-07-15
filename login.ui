@@ -22,7 +22,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>5</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="loginpage">
        <widget class="QLabel" name="loginlabel">
@@ -88,7 +88,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>280</x>
@@ -186,7 +186,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>260</x>
@@ -567,7 +567,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:24pt; font-weight:700; color:#aa0000;&quot;&gt;菜单&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>330</x>
@@ -665,7 +665,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>140</y>
+          <y>200</y>
           <width>81</width>
           <height>41</height>
          </rect>
@@ -678,7 +678,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>340</y>
+          <y>400</y>
           <width>81</width>
           <height>41</height>
          </rect>
@@ -691,7 +691,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>290</y>
+          <y>350</y>
           <width>81</width>
           <height>41</height>
          </rect>
@@ -704,7 +704,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>190</y>
+          <y>250</y>
           <width>81</width>
           <height>41</height>
          </rect>
@@ -717,13 +717,26 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>240</y>
+          <y>300</y>
           <width>81</width>
           <height>41</height>
          </rect>
         </property>
         <property name="text">
          <string>查找</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="PBUpdate">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>100</y>
+          <width>81</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>更新</string>
         </property>
        </widget>
       </widget>
@@ -846,7 +859,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:700;&quot;&gt;添加商品&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>310</x>
@@ -978,7 +991,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>300</x>
@@ -1019,7 +1032,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:700;&quot;&gt;编辑&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>300</x>
@@ -1127,7 +1140,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>240</x>
@@ -1175,7 +1188,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:700;&quot;&gt;查找&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>330</x>
@@ -1201,13 +1214,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>320</x>
           <y>230</y>
           <width>181</width>
-          <height>21</height>
+          <height>25</height>
          </rect>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_10">
@@ -1268,7 +1281,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
          <string>数量</string>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>340</x>
@@ -1303,7 +1316,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>250</x>
@@ -1373,7 +1386,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>300</x>
@@ -1399,15 +1412,10 @@ li.checked::marker { content: &quot;\2612&quot;; }
          </item>
         </layout>
        </widget>
+       <zorder>layoutWidget</zorder>
+       <zorder>layoutWidget</zorder>
+       <zorder>layoutWidget</zorder>
        <zorder>label_14</zorder>
-       <zorder>lineEditName</zorder>
-       <zorder>lineEditAmount</zorder>
-       <zorder>label_15</zorder>
-       <zorder>PBConfirm</zorder>
-       <zorder>PBCancel</zorder>
-       <zorder>lineEditCustomer</zorder>
-       <zorder>label_16</zorder>
-       <zorder>PBAddGood</zorder>
        <zorder>label_17</zorder>
        <zorder>label_18</zorder>
       </widget>

@@ -121,6 +121,10 @@ private slots:
 
     void on_lineEditSearch_textChanged(const QString &arg1);
 
+
+
+    void on_PBUpdate_clicked();
+
 private:
     Ui::Login *ui;
     QPixmap pixl;

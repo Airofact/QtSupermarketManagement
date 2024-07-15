@@ -69,19 +69,15 @@ tradeListItem *Trade::getTradeListItem(const QString &name) const
             return &i;
         }
     }
-    // qDebug()<<"not found";
     return nullptr;
 }
 
 bool Trade::addTradeListItem(const QString &name, Inventory &inven)
 {
     m_pTradeList->push_back(std::make_pair(name, inven));
-    for (const auto &type : inven.getInventory()->keys())
+    for (auto pair = inven.getInventory()->begin(); pair != inven.getInventory()->end(); ++pair)
     {
-        // qDebug()<<"1";
-        // qDebug()<<type.getName();
-        // qDebug()<<inven.getAmount(name);
-        // m_pLinkedInventory->removeGoods(type.getName(), inven.getAmount(name)); // bug here
+        m_pLinkedInventory->removeGoods(pair.key().getName(),pair.value());
     }
     return true;
 }

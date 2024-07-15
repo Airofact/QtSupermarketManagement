@@ -101,19 +101,19 @@ void Inventory::editGoods(const QString &name, double price, int amount)
 }
 void Inventory::removeGoods(const QString &name, int amount)
 {
-    qDebug()<<"5";
+
     for (auto pair = m_pInventory->begin(); pair != m_pInventory->end(); ++pair)
 	{
-        qDebug()<<"4";
+
         if (pair.key().getName() == name)
 		{
 			if (amount == 0)
-            {qDebug()<<"3";
+            {
                 m_pInventory->erase(pair);
 			}
 			else
 			{
-                qDebug()<<"2";
+
                 pair.value() -= amount;
                 if (pair.value() <= 0)
 				{

@@ -497,6 +497,7 @@ void Login::on_PBAddGood_clicked()
         if(goods){
             newInven->addGoods(*goods,amount);
             trade->addTradeListItem(name,*newInven);
+            // qDebug()<<newInven->getAmount(goodsName);
         }
     }
      else if (goods){
@@ -575,5 +576,10 @@ void Login::on_lineEditSearch_textChanged(const QString &arg1)
         QTableWidgetItem *typeItem = new QTableWidgetItem(j.key().getType());
         ui->tradetable->setItem(ui->tradetable->rowCount()-1, 3, typeItem);
     }
+}
+
+void Login::on_PBUpdate_clicked()
+{
+    updateTable();
 }
 
