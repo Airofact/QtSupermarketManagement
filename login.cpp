@@ -37,18 +37,6 @@ Login::Login(QWidget *parent)
     pixl1=QPixmap(":/pics/left_eye_close.png");
     pixr2=QPixmap(":/pics/right_eye_close.png");
 
-
-    //商品
-    //good.setHorizontalHeaderLabels({"商品名称", "商品类型", "商品价格","商品数量"});
-    // ui->goodtable->setModel(&good);
-    // ui->goodtable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-
-    // //trade.setHorizontalHeaderLabels({"商品名称", "数量浮动", "原因"});
-    // ui->tradetable->setModel(&trade);
-    // ui->tradetable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-
-
-
     members.emplace_back(new Member("1","1","798370740@qq.com",15525125026LL,".\\pics\\ph3.png"));
 
 
@@ -67,7 +55,7 @@ Login::Login(QWidget *parent)
     ui->tradetable->setHorizontalHeaderLabels(tradeHead);
     ui->tradetable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-    ui->tableWidgetTradeList->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    // ui->tableWidgetTradeList->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     b=new Inventory;
     // trade=new Trade(b);
 }
@@ -209,8 +197,8 @@ void Login::on_tradeesc_released()
 
 void Login::on_passwordlineEdit_textChanged(const QString &arg1)
 {
-        ui->loginleft->setPixmap(pixl1);
-        ui->loginright->setPixmap(pixr2);
+    ui->loginleft->setPixmap(pixl1);
+    ui->loginright->setPixmap(pixr2);
 }
 
 
@@ -345,6 +333,7 @@ void Login::on_import_2_clicked()
     QString file_name=QString("./goods.json");
     delete b;
     b = new Inventory(Inventory::fromFile(file_name));
+    trade->setLinkedInventory(b);
     updateTable();
     // QHash<CargoType, int>::const_iterator i;
     // for(i=b->m_pInventory->begin();i!=b->m_pInventory->end();++i)
@@ -391,8 +380,8 @@ void Login::on_pushButton_5_clicked()
 void Login::on_pushButton_6_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->page_3);
-    ui->tableWidgetTradeList->clearContents();
-    ui->tableWidgetTradeList->setRowCount(0);
+    // ui->tableWidgetTradeList->clearContents();
+    // ui->tableWidgetTradeList->setRowCount(0);
     ui->lineEditAmount->clear();
     ui->lineEditCustomer->clear();
     ui->lineEditName->clear();
@@ -542,6 +531,8 @@ void helperUpdateTempInvenTable(QTableWidget* tableWidget){
 }
 void Login::on_PBAddGood_clicked()
 {
+
+    // helperUpdateTempInvenTable(ui->tableWidgetTradeList);
     // if(!tempInven){
     //     tempInven = new Inventory;
     // }
@@ -552,13 +543,32 @@ void Login::on_PBAddGood_clicked()
 
     // tempInven->addGoods(newCargo,amount);
     // tempInven->print();
-    helperUpdateTempInvenTable(ui->tableWidgetTradeList);
+
     // ui->tableWidgetTradeList->insertRow(ui->tableWidgetTradeList->rowCount());
     // QTableWidgetItem *name2Item = new QTableWidgetItem(ui->lineEditCustomer->text());
     // ui->tradetable->setItem(ui->tradetable->rowCount()-1, 0, name2Item);
     // QTableWidgetItem *reason2Item = new QTableWidgetItem(ui->lineEditAmount->text());
     // ui->tradetable->setItem(ui->tradetable->rowCount()-1, 1, reason2Item);
+    QString name = ui->lineEditCustomer->text();
+    QString goodsName = ui->lineEditName->text();
+    int amount = ui->lineEditAmount->text().toInt();
 
+    CargoType* goods = b->getCargoType(goodsName);
+            qDebug()<<goods->getName();
+    if(!trade->getTradeListItem(name)){
+        Inventory *newInven = new Inventory;
+
+        if(goods){
+            // newInven->addGoods(*goods,amount);
+                  qDebug()<<'1';
+            // trade->addTradeListItem(name,*newInven);
+
+        }
+    }
+    // else if (goods){
+    //     trade->getTradeListItem(name)->second.addGoods(*goods,amount);
+    // }
+    // trade->printTradeList();
 }
 
 
@@ -615,5 +625,11 @@ void Login::on_PBConfirm_clicked()
     // trade->printTradeList();
     // on_PBCancel_clicked();
     // updateTradeTable();
+}
+
+
+void Login::on_pushButton_14_clicked()
+{
+    // trade->getLinkedInventory()->print();
 }
 

@@ -119,6 +119,8 @@ private slots:
     void updateTradeTable();
 
 
+    void on_pushButton_14_clicked();
+
 private:
     Ui::Login *ui;
     QPixmap pixl;

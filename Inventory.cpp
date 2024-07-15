@@ -9,10 +9,8 @@ Inventory::Inventory()
 }
 Inventory::~Inventory()
 {
-	if (m_pInventory != nullptr)
-    {
-		delete m_pInventory;
-	}
+    delete m_pInventory;
+    m_pInventory = nullptr;
 }
 
 Inventory::Inventory(const Inventory& inventory)
@@ -66,12 +64,10 @@ CargoType* Inventory::getCargoType(const QString &name) const
 {
 
     for(CargoType& type:m_pInventory->keys()){
-        // qDebug()<<type.getName()<<name;
         if(type.getName() == name){
             return &type;
         }
     }
-    // qDebug()<<"1";
     return nullptr;
 }
 int Inventory::getAmount(const QString& name) const {
@@ -90,8 +86,10 @@ bool Inventory::contains(const CargoType& type) const
 void Inventory::addGoods(const CargoType& type, int amount)
 {
     if(m_pInventory->contains(type)){
+        qDebug() << "found";
         (*m_pInventory)[type] += amount;
     }else{
+           qDebug() << "NOT found";
         m_pInventory->insert(type,amount);
     }
 }

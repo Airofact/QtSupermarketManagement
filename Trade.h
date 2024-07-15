@@ -37,6 +37,13 @@ public:
     std::list<tradeListItem> *getTradeList() const;
     // 测试打印用
     void printTradeList() const;
+
+    void setLinkedInventory(Inventory* inven){
+        m_pLinkedInventory = inven;
+    }
+    Inventory* getLinkedInventory()const {
+        return m_pLinkedInventory;
+    }
     // //序列化
     // bool serialize(QByteArray& json) const override;
     // //反序列化
