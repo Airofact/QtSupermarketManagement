@@ -9,7 +9,6 @@ class IEntity{
 public:
     virtual uint getId() const = 0;
     virtual bool setId(uint id) = 0;
-
     virtual uint getNewId() = 0;
 
     static const T& getEntity(uint id);
