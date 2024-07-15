@@ -78,7 +78,10 @@ bool Trade::addTradeListItem(const QString &name, Inventory &inven)
     m_pTradeList->push_back(std::make_pair(name, inven));
     for (const auto &type : inven.getInventory()->keys())
     {
-        //m_pLinkedInventory->removeGoods(type.getName(), inven.getAmount(name)); // bug here
+        qDebug()<<"1";
+        qDebug()<<type.getName();
+        qDebug()<<inven.getAmount(name);
+        m_pLinkedInventory->removeGoods(type.getName(), inven.getAmount(name)); // bug here
     }
     return true;
 }

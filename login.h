@@ -110,16 +110,12 @@ private slots:
 
     void on_PBAddGood_clicked();
 
-    void on_PBRemoveGood_clicked();
 
     void on_PBCancel_clicked();
 
     void on_PBConfirm_clicked();
 
     void updateTradeTable();
-
-
-    void on_pushButton_14_clicked();
 
     void on_tradetable_itemDoubleClicked(QTableWidgetItem *item);
 

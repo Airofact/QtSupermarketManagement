@@ -22,7 +22,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>5</number>
+       <number>8</number>
       </property>
       <widget class="QWidget" name="loginpage">
        <widget class="QLabel" name="loginlabel">
@@ -732,19 +732,6 @@
          <string>添加</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_14">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>130</y>
-          <width>92</width>
-          <height>28</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>更新</string>
-        </property>
-       </widget>
       </widget>
       <widget class="QWidget" name="page_2">
        <widget class="QPushButton" name="pushButton_4">
@@ -1266,6 +1253,15 @@
          <string>顾客名称</string>
         </property>
        </widget>
+       <zorder>label_14</zorder>
+       <zorder>lineEditName</zorder>
+       <zorder>lineEditAmount</zorder>
+       <zorder>label_15</zorder>
+       <zorder>PBConfirm</zorder>
+       <zorder>PBCancel</zorder>
+       <zorder>lineEditCustomer</zorder>
+       <zorder>label_16</zorder>
+       <zorder>PBAddGood</zorder>
       </widget>
      </widget>
     </item>

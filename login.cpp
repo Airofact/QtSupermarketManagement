@@ -55,7 +55,6 @@ Login::Login(QWidget *parent)
     ui->tradetable->setHorizontalHeaderLabels(tradeHead);
     ui->tradetable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-    // ui->tableWidgetTradeList->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     b=new Inventory;
     trade=new Trade(b);
 }
@@ -335,19 +334,6 @@ void Login::on_import_2_clicked()
     b = new Inventory(Inventory::fromFile(file_name));
     trade->setLinkedInventory(b);
     updateTable();
-    // QHash<CargoType, int>::const_iterator i;
-    // for(i=b->m_pInventory->begin();i!=b->m_pInventory->end();++i)
-    // {
-    // ui->goodtable->insertRow(ui->goodtable->rowCount());
-    // QTableWidgetItem *nameItem = new QTableWidgetItem(i.key().getName());
-    // ui->goodtable->setItem(ui->goodtable->rowCount()-1, 0, nameItem);
-    // QTableWidgetItem *priceItem = new QTableWidgetItem(QString::number(i.key().getPrice(),'f',2));
-    // ui->goodtable->setItem(ui->goodtable->rowCount()-1, 2, priceItem);
-    // QTableWidgetItem *typeItem = new QTableWidgetItem(i.key().getType());
-    // ui->goodtable->setItem(ui->goodtable->rowCount()-1, 1, typeItem);
-    // QTableWidgetItem *amountItem = new QTableWidgetItem(QString::number(i.value()));
-    // ui->goodtable->setItem(ui->goodtable->rowCount()-1, 3, amountItem);
-    // }
 }
 
 
@@ -380,8 +366,6 @@ void Login::on_pushButton_5_clicked()
 void Login::on_pushButton_6_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->page_3);
-    // ui->tableWidgetTradeList->clearContents();
-    // ui->tableWidgetTradeList->setRowCount(0);
     ui->lineEditAmount->clear();
     ui->lineEditCustomer->clear();
     ui->lineEditName->clear();
@@ -432,18 +416,8 @@ void Login::on_pushButton_9_clicked()
 
 void Login::on_pushButton_7_clicked()
 {
-
-    // QString file_name=QString("./goods.json");
-    // Inventory edit = Inventory::fromFile(file_name);
     b->editGoods(ui->editgood->text(), (ui->editprice->text()).toDouble(), (ui->editamount->text()).toInt());
     updateTable();
-        // QByteArray data;
-        // QString file1=QString("goods.json");
-        // QFile file(file1);
-        // file.open(QIODevice::WriteOnly);
-        // edit.serialize(data);
-        // file.write(data);
-        // file.close();
 }
 
 
@@ -473,8 +447,6 @@ void Login::on_pushButton_12_clicked()
 {
     CargoType *get;
     QMessageBox msg;
-    // QString file_name=QString("./goods.json");
-    // Inventory find = Inventory::fromFile(file_name);
     get=b->getCargoType(ui->findedit->text());
     QString message=QString("该商品的类型为：%1\n该商品的价格为：%2\n该商品的数量为：%3").arg(get->getType()).arg(get->getPrice()).arg(b->getAmount(ui->findedit->text()));
     msg.setText(message);
@@ -532,58 +504,28 @@ void helperUpdateTempInvenTable(QTableWidget* tableWidget){
 void Login::on_PBAddGood_clicked()
 {
 
-    // helperUpdateTempInvenTable(ui->tableWidgetTradeList);
-    // if(!tempInven){
-    //     tempInven = new Inventory;
-    // }
 
-    // QString name = ui->lineEditName->text();
-    // int amount = ui->lineEditAmount->text().toInt();
-    // CargoType newCargo = * b->getCargoType(name);
-
-    // tempInven->addGoods(newCargo,amount);
-    // tempInven->print();
-
-    // ui->tableWidgetTradeList->insertRow(ui->tableWidgetTradeList->rowCount());
-    // QTableWidgetItem *name2Item = new QTableWidgetItem(ui->lineEditCustomer->text());
-    // ui->tradetable->setItem(ui->tradetable->rowCount()-1, 0, name2Item);
-    // QTableWidgetItem *reason2Item = new QTableWidgetItem(ui->lineEditAmount->text());
-    // ui->tradetable->setItem(ui->tradetable->rowCount()-1, 1, reason2Item);
     QString name = ui->lineEditCustomer->text();
     QString goodsName = ui->lineEditName->text();
     int amount = ui->lineEditAmount->text().toInt();
 
     CargoType* goods = b->getCargoType(goodsName);
-            qDebug()<<goods->getName();
+
     if(!trade->getTradeListItem(name)){
         Inventory *newInven = new Inventory;
 
         if(goods){
             newInven->addGoods(*goods,amount);
-                  qDebug()<<'1';
-            trade->addTradeListItem(name,*newInven);
 
+            trade->addTradeListItem(name,*newInven);
         }
     }
      else if (goods){
          trade->getTradeListItem(name)->second.addGoods(*goods,amount);
     }
-     trade->printTradeList();
+
 }
 
-
-void Login::on_PBRemoveGood_clicked()
-{
-    // if(!tempInven)return;
-    // QString name = ui->lineEditName->text();
-    // int amount = ui->lineEditAmount->text().toInt();
-    // if(!tempInven->getCargoType(name)){
-    //     qDebug()<<"cannot find it";
-    //     return;
-    // }
-    // tempInven->removeGoods(name,amount);
-    //     helperUpdateTempInvenTable(ui->tableWidgetTradeList);
-}
 
 
 void Login::on_PBCancel_clicked()
@@ -618,12 +560,6 @@ void Login::on_PBConfirm_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->tradepage);
     updateTradeTable();
-}
-
-
-void Login::on_pushButton_14_clicked()
-{
-    // trade->getLinkedInventory()->print();
 }
 
 
