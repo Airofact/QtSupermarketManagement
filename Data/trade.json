@@ -1,11 +1,43 @@
 {
-    "linkedInventory": 0,
+    "linkedInventory": 12324,
     "tradeList": [
         {
             "inventory": {
                 "content": {
+                    "烤全羊": {
+                        "amount": 1,
+                        "cargoType": {
+                            "name": "烤全羊",
+                            "price": 666,
+                            "type": "人类"
+                        }
+                    }
+                },
+                "id": 3173822151
+            },
+            "name": "cypress"
+        },
+        {
+            "inventory": {
+                "content": {
+                    "豪赤的大奋": {
+                        "amount": 114514,
+                        "cargoType": {
+                            "name": "豪赤的大奋",
+                            "price": 114.514,
+                            "type": "食品"
+                        }
+                    }
+                },
+                "id": 3029200687
+            },
+            "name": "heav"
+        },
+        {
+            "inventory": {
+                "content": {
                     "bookA": {
-                        "amount": 12,
+                        "amount": 11,
                         "cargoType": {
                             "name": "bookA",
                             "price": 29.9,
@@ -13,23 +45,23 @@
                         }
                     }
                 },
-                "id": 0
+                "id": 2339303371
             },
             "name": "airo"
         },
         {
             "inventory": {
                 "content": {
-                    "BookB": {
-                        "amount": 44,
+                    "鹿乃子的角": {
+                        "amount": 2,
                         "cargoType": {
-                            "name": "BookB",
-                            "price": 24.5,
-                            "type": "书"
+                            "name": "鹿乃子的角",
+                            "price": 500,
+                            "type": "补品"
                         }
                     }
                 },
-                "id": 0
+                "id": 2208424088
             },
             "name": "levy"
         }
