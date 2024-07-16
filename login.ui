@@ -11,25 +11,25 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Login</string>
+   <string>超市管理系统</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>image/0b0375a9ad8950b6595e12866c4cfe23f7f7e926.png</normaloff>image/0b0375a9ad8950b6595e12866c4cfe23f7f7e926.png</iconset>
+   <iconset resource="pics.qrc">
+    <normaloff>:/pics/icon.ico</normaloff>:/pics/icon.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="loginpage">
        <widget class="QLabel" name="loginright">
         <property name="geometry">
          <rect>
           <x>720</x>
-          <y>390</y>
+          <y>410</y>
           <width>161</width>
           <height>131</height>
          </rect>
@@ -1023,7 +1023,7 @@
          <rect>
           <x>-10</x>
           <y>0</y>
-          <width>901</width>
+          <width>919</width>
           <height>835</height>
          </rect>
         </property>
@@ -2514,7 +2514,7 @@
      <x>0</x>
      <y>0</y>
      <width>899</width>
-     <height>24</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

@@ -10,5 +10,6 @@
         <file>pics/right_eye_close.png</file>
         <file>pics/right_eye_open.png</file>
         <file>pics/arcaea.png</file>
+        <file>pics/icon.ico</file>
     </qresource>
 </RCC>

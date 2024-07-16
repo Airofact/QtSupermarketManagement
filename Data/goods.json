@@ -1,51 +1,67 @@
 {
     "content": {
-        "BookB": {
+        "苹果": {
             "amount": 100,
             "cargoType": {
-                "name": "BookB",
-                "price": 24.5,
-                "type": "书"
+                "name": "苹果",
+                "price": 1.2,
+                "type": "食品"
             }
         },
-        "bookA": {
-            "amount": 100,
+        "香蕉": {
+            "amount": 150,
             "cargoType": {
-                "name": "bookA",
+                "name": "香蕉",
+                "price": 0.5,
+                "type": "食品"
+            }
+        },
+        "书籍1": {
+            "amount": 50,
+            "cargoType": {
+                "name": "书籍1",
                 "price": 29.9,
                 "type": "书"
             }
         },
-        "烤全羊": {
-            "amount": 1,
+        "书籍2": {
+            "amount": 30,
             "cargoType": {
-                "name": "烤全羊",
-                "price": 666,
-                "type": "人类"
+                "name": "书籍2",
+                "price": 24.5,
+                "type": "书"
             }
         },
-        "豪赤的大奋": {
-            "amount": 1919810,
+        "电脑": {
+            "amount": 20,
             "cargoType": {
-                "name": "豪赤的大奋",
-                "price": 114.514,
-                "type": "食品"
+                "name": "电脑",
+                "price": 4999.9,
+                "type": "电子产品"
             }
         },
-        "领头的羊": {
-            "amount": 5,
+        "手机": {
+            "amount": 40,
             "cargoType": {
-                "name": "领头的羊",
-                "price": 666,
-                "type": "牲畜"
+                "name": "手机",
+                "price": 2999.9,
+                "type": "电子产品"
             }
         },
-        "鹿乃子的角": {
-            "amount": 3,
+        "沙发": {
+            "amount": 10,
             "cargoType": {
-                "name": "鹿乃子的角",
-                "price": 500,
-                "type": "补品"
+                "name": "沙发",
+                "price": 1500,
+                "type": "家具"
+            }
+        },
+        "椅子": {
+            "amount": 60,
+            "cargoType": {
+                "name": "椅子",
+                "price": 200,
+                "type": "家具"
             }
         }
     },

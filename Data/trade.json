@@ -4,66 +4,66 @@
         {
             "inventory": {
                 "content": {
-                    "烤全羊": {
-                        "amount": 1,
+                    "苹果": {
+                        "amount": 10,
                         "cargoType": {
-                            "name": "烤全羊",
-                            "price": 666,
-                            "type": "人类"
-                        }
-                    }
-                },
-                "id": 3173822151
-            },
-            "name": "cypress"
-        },
-        {
-            "inventory": {
-                "content": {
-                    "豪赤的大奋": {
-                        "amount": 114514,
-                        "cargoType": {
-                            "name": "豪赤的大奋",
-                            "price": 114.514,
+                            "name": "苹果",
+                            "price": 1.2,
                             "type": "食品"
                         }
                     }
                 },
-                "id": 3029200687
+                "id": 3166333755
             },
-            "name": "heav"
+            "name": "张三"
         },
         {
             "inventory": {
                 "content": {
-                    "bookA": {
-                        "amount": 11,
+                    "香蕉": {
+                        "amount": 20,
                         "cargoType": {
-                            "name": "bookA",
+                            "name": "香蕉",
+                            "price": 0.5,
+                            "type": "食品"
+                        }
+                    }
+                },
+                "id": 3166333756
+            },
+            "name": "李四"
+        },
+        {
+            "inventory": {
+                "content": {
+                    "书籍1": {
+                        "amount": 5,
+                        "cargoType": {
+                            "name": "书籍1",
                             "price": 29.9,
                             "type": "书"
                         }
                     }
                 },
-                "id": 2339303371
+                "id": 3166333757
             },
-            "name": "airo"
+            "name": "王五"
         },
         {
             "inventory": {
                 "content": {
-                    "鹿乃子的角": {
+                    "电脑": {
                         "amount": 2,
                         "cargoType": {
-                            "name": "鹿乃子的角",
-                            "price": 500,
-                            "type": "补品"
+                            "name": "电脑",
+                            "price": 4999.9,
+                            "type": "电子产品"
                         }
                     }
                 },
-                "id": 2208424088
+                "id": 3166333758
             },
-            "name": "levy"
+            "name": "赵六"
         }
     ]
 }
