@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <QFile>
+#include <QMessageBox>
 
 QMap<uint,Inventory*> Inventory::m_regesteredInventory;
 
@@ -43,6 +44,7 @@ Inventory Inventory::fromFile(const QString& path){
 }
 bool Inventory::toJsonObject(QJsonObject& json) const{
     json.insert("id",QVariant(getId()).toJsonValue());
+    QJsonObject content;
     for (const CargoType& type : m_pInventory->keys())
     {
         QJsonObject key;
@@ -50,14 +52,22 @@ bool Inventory::toJsonObject(QJsonObject& json) const{
         QJsonObject pair;
         pair.insert("cargoType",key);
         pair.insert("amount",(*m_pInventory)[type]);
-        json.insert(type.getName(), pair);
+        content.insert(type.getName(), pair);
     }
+    json.insert("content",content);
     return true;
 }
 bool Inventory::fromJsonObject(const QJsonObject& json){
-    for (const QString& key : json.keys())
+    if(!json.contains("id")){
+        setId(constructId());
+        QMessageBox::warning(nullptr,"Inventory","未找到id，已自动生成");
+    }else{
+        setId(json["id"].toInt());
+    }
+    QJsonObject content = json["content"].toObject();
+    for (const QString& key : content.keys())
     {
-        QJsonObject pair = json[key].toObject();
+        QJsonObject pair = content[key].toObject();
         CargoType type;
         if(!type.fromJsonObject(pair["cargoType"].toObject())){
             return false;

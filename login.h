@@ -16,6 +16,7 @@
 #include"Inventory.h"
 #include"find.h"
 #include"Trade.h"
+#include"QCompleter"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class Login;
@@ -145,6 +146,8 @@ private:
 
     QPixmap pix;//头像
     QTimer *timer;//计时器
+    //自动补全
+    QCompleter* m_pCompleter;
 
     //人员信息
     std::vector<std::unique_ptr<Member>> members;

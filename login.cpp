@@ -63,9 +63,9 @@ Login::Login(QWidget *parent)
     ui->tradetable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
 
-    ui->tableWidget->setColumnCount(good.count());
-    ui->tableWidget->setHorizontalHeaderLabels(good);
-    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableEditingTradeGoods->setColumnCount(good.count());
+    ui->tableEditingTradeGoods->setHorizontalHeaderLabels(good);
+    ui->tableEditingTradeGoods->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     m_pDisplayingInventory=new Inventory;
     trade=new Trade(m_pDisplayingInventory);
@@ -335,6 +335,15 @@ void Login::updateGoodsTable(){
         QTableWidgetItem *amountItem = new QTableWidgetItem(QString::number(i.value()));
         ui->goodtable->setItem(ui->goodtable->rowCount()-1, 3, amountItem);
     }
+    QStringList goodsList;
+    for(i=m_pDisplayingInventory->m_pInventory->begin();i!=m_pDisplayingInventory->m_pInventory->end();++i)
+    {
+        goodsList.append(i.key().getName());
+    }
+    m_pCompleter = new QCompleter(goodsList);
+    ui->lineEditName->setCompleter(m_pCompleter);
+    ui->findedit->setCompleter(m_pCompleter);
+    ui->lineEditSearch->setCompleter(m_pCompleter);
 }
 
 void Login::on_import_2_clicked()
@@ -388,20 +397,20 @@ void Login::on_pushButton_6_clicked()
     ui->lineEditCustomer->clear();
     ui->lineEditName->clear();
 
-    ui->tableWidget->clearContents();
-    ui->tableWidget->setRowCount(0);
+    ui->tableEditingTradeGoods->clearContents();
+    ui->tableEditingTradeGoods->setRowCount(0);
     QHash<CargoType, int>::const_iterator i;
     for(i=m_pDisplayingInventory->m_pInventory->begin();i!=m_pDisplayingInventory->m_pInventory->end();++i)
     {
-        ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+        ui->tableEditingTradeGoods->insertRow(ui->tableEditingTradeGoods->rowCount());
         QTableWidgetItem *nameItem = new QTableWidgetItem(i.key().getName());
-        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 0, nameItem);
+        ui->tableEditingTradeGoods->setItem(ui->tableEditingTradeGoods->rowCount()-1, 0, nameItem);
         QTableWidgetItem *priceItem = new QTableWidgetItem(QString::number(i.key().getPrice(),'f',2));
-        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 2, priceItem);
+        ui->tableEditingTradeGoods->setItem(ui->tableEditingTradeGoods->rowCount()-1, 2, priceItem);
         QTableWidgetItem *typeItem = new QTableWidgetItem(i.key().getType());
-        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 1, typeItem);
+        ui->tableEditingTradeGoods->setItem(ui->tableEditingTradeGoods->rowCount()-1, 1, typeItem);
         QTableWidgetItem *amountItem = new QTableWidgetItem(QString::number(i.value()));
-        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 3, amountItem);
+        ui->tableEditingTradeGoods->setItem(ui->tableEditingTradeGoods->rowCount()-1, 3, amountItem);
     }
 
 }
@@ -579,7 +588,7 @@ void Login::on_PBAddGood_clicked()
     else if (goods){
         trade->getTradeListItem(name)->second.addGoods(*goods,amount);
     }
-
+    QMessageBox::information(this,"","添加成功");
 }
 
 
