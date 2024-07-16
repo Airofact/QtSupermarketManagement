@@ -10,6 +10,18 @@
     <height>583</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>899</width>
+    <height>583</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>899</width>
+    <height>583</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>超市管理系统</string>
   </property>
@@ -22,7 +34,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="loginpage">
        <widget class="QLabel" name="loginright">
@@ -1085,19 +1097,6 @@
               <number>0</number>
              </property>
              <item>
-              <widget class="QPushButton" name="tradepushButton">
-               <property name="minimumSize">
-                <size>
-                 <width>121</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>交易信息</string>
-               </property>
-              </widget>
-             </item>
-             <item>
               <widget class="QPushButton" name="goodspushButton">
                <property name="minimumSize">
                 <size>
@@ -1107,6 +1106,19 @@
                </property>
                <property name="text">
                 <string>库存信息</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="tradepushButton">
+               <property name="minimumSize">
+                <size>
+                 <width>121</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>交易信息</string>
                </property>
               </widget>
              </item>
@@ -1429,19 +1441,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="PBExport">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>导出</string>
-             </property>
-            </widget>
-           </item>
-           <item>
             <widget class="QPushButton" name="PBImport">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
@@ -1451,6 +1450,19 @@
              </property>
              <property name="text">
               <string>导入</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="PBExport">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>导出</string>
              </property>
             </widget>
            </item>

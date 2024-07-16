@@ -5,6 +5,7 @@
 #include"Inventory.h"
 
 #include <filesystem>
+#include <QPalette>
 
 Login::Login(QWidget *parent)
     : QMainWindow(parent)
@@ -363,7 +364,7 @@ void Login::on_import_2_clicked()
     trade->setLinkedInventory(m_pDisplayingInventory);
     updateGoodsTable();
     QMessageBox::information(this,"","成功导入");
-    //ToDo: MessageBox 成功导入
+
 }
 
 
@@ -381,7 +382,7 @@ void Login::on_pushButton_2_clicked()
     updateGoodsTable();
     msg.setText("添加成功");
     msg.exec();
-    //ToDo: MessageBox 添加成功
+
 }
 
 
@@ -462,16 +463,16 @@ void Login::on_pushButton_7_clicked()
     {
         msg.setText("无法找到该商品");
         msg.exec();
-        //ToDo: MessageBox 无法找到该书
+
         return;
     }
     double price =!(ui->editprice->text()).toDouble() ? m_pDisplayingInventory->getCargoType(name)->getPrice() : (ui->editprice->text()).toDouble();
-    int amount = !(ui->editamount->text()).toInt() ? m_pDisplayingInventory->getAmount(name) : (ui->editprice->text()).toDouble();
+    int amount = !(ui->editamount->text()).toInt() ? m_pDisplayingInventory->getAmount(name) : (ui->editamount->text()).toDouble();
     m_pDisplayingInventory->editGoods(name, price, amount);
     updateGoodsTable();
     msg.setText("修改成功");
     msg.exec();
-    //ToDo: MessageBox 修改成功
+
 }
 
 
@@ -483,14 +484,14 @@ void Login::on_pushButton_10_clicked()
     {
         msg.setText("无法找到该商品");
         msg.exec();
-        //ToDo: MessageBox 无法找到该书
+
         return;
     }
     m_pDisplayingInventory->removeGoods(name,(ui->editamount->text()).toInt());
     updateGoodsTable();
     msg.setText("删除成功");
     msg.exec();
-    //ToDo: MessageBox 删除成功
+
 }
 
 
@@ -637,24 +638,30 @@ void Login::on_PBConfirm_clicked()
 
 void Login::on_tradetable_itemDoubleClicked(QTableWidgetItem *item)
 {
-    // int row=ui->tradetable->currentRow();
-    // QTableWidgetItem* customerItem = ui->tradetable->item(row, 0);
-    // QTableWidgetItem* goodsItem = ui->tradetable->item(row, 1);
-    // trade->getTradeListItem(customerItem->text())->second.removeGoods(goodsItem->text());
-    // updateTradeTable();
 
 }
 
 
 void Login::on_lineEditSearch_textChanged(const QString &arg1)
 {
+
+    QPalette palette = ui->lineEditSearch->palette();
+    palette.setColor(QPalette::Text, Qt::gray);
+    ui->lineEditSearch->setPalette(palette);
+
+    updateTradeTable();
     if(arg1.isEmpty()){
-        updateTradeTable();return;
+        return;
     }
+
+
     auto getItem = trade->getTradeListItem(arg1);
     if(!getItem)return;
     ui->tradetable->clearContents();
     ui->tradetable->setRowCount(0);
+
+    palette.setColor(QPalette::Text, Qt::black);
+    ui->lineEditSearch->setPalette(palette);
 
     for(auto j = getItem->second.getInventory()->begin();j!=getItem->second.getInventory()->end();j++)
     {
@@ -676,7 +683,7 @@ void Login::on_PBUpdate_clicked()
     updateGoodsTable();
     msg.setText("更新成功");
     msg.exec();
-    //ToDo: MessageBox 更新成功
+
 }
 
 void Login::on_PBExport_clicked()
@@ -694,14 +701,13 @@ void Login::on_PBExport_clicked()
     file.write(data);
     file.close();
     QMessageBox::information(this,"","导出成功");
-    //ToDo: MessageBox 导出成功
+
 }
 
 
 void Login::on_PBImport_clicked()
 {
-    // ui->tradetable->clearContents();
-    // ui->tradetable->setRowCount(0);
+
     QString path = QFileDialog::getOpenFileName(this, "Load JSON", "", "JSON Files (*.json)");
     delete trade;
     QFile file(path);
@@ -715,12 +721,12 @@ void Login::on_PBImport_clicked()
     trade = new Trade(json,&ok);
         trade->setLinkedInventory(m_pDisplayingInventory);
     if(!ok){
-        QMessageBox::warning(this,"","导入失败，目标库存可能无效");
+        QMessageBox::warning(this,"","导入失败，当前库存为空或无效");
         return;
     }
     updateTradeTable();
     QMessageBox::information(this,"","导入成功");
-    //ToDo: MessageBox 导入成功
+
 }
 
 
