@@ -735,6 +735,8 @@ void Login::on_tradetable_cellClicked(int row, int column)
 void Login::on_tradetable_customContextMenuRequested(const QPoint &pos)
 {
     QTableWidgetItem* item = ui->tradetable->itemAt(pos);
+    if(item==nullptr)
+        return;
     int row = item->row();
     QMenu *menu = new QMenu(this);
     QAction *deleteAction = new QAction("删除", this);
@@ -742,7 +744,10 @@ void Login::on_tradetable_customContextMenuRequested(const QPoint &pos)
     connect(deleteAction, &QAction::triggered, this, [=](){
         QTableWidgetItem* customerItem = ui->tradetable->item(row, 0);
         QTableWidgetItem* goodsItem = ui->tradetable->item(row, 1);
-        trade->getTradeListItem(customerItem->text())->second.removeGoods(goodsItem->text());
+        QTableWidgetItem* amountItem = ui->tradetable->item(row, 2);
+        trade->getTradeListItem(customerItem->text())->second.transferGoods(
+            *m_pDisplayingInventory,goodsItem->text(),amountItem->text().toInt()
+        );
         updateTradeTable();
     });
     menu->exec(QCursor::pos());
