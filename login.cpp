@@ -62,6 +62,11 @@ Login::Login(QWidget *parent)
     ui->tradetable->setHorizontalHeaderLabels(tradeHead);
     ui->tradetable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
+
+    ui->tableWidget->setColumnCount(good.count());
+    ui->tableWidget->setHorizontalHeaderLabels(good);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
     m_pDisplayingInventory=new Inventory;
     trade=new Trade(m_pDisplayingInventory);
 }
@@ -382,6 +387,23 @@ void Login::on_pushButton_6_clicked()
     ui->lineEditAmount->clear();
     ui->lineEditCustomer->clear();
     ui->lineEditName->clear();
+
+    ui->tableWidget->clearContents();
+    ui->tableWidget->setRowCount(0);
+    QHash<CargoType, int>::const_iterator i;
+    for(i=m_pDisplayingInventory->m_pInventory->begin();i!=m_pDisplayingInventory->m_pInventory->end();++i)
+    {
+        ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+        QTableWidgetItem *nameItem = new QTableWidgetItem(i.key().getName());
+        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 0, nameItem);
+        QTableWidgetItem *priceItem = new QTableWidgetItem(QString::number(i.key().getPrice(),'f',2));
+        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 2, priceItem);
+        QTableWidgetItem *typeItem = new QTableWidgetItem(i.key().getType());
+        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 1, typeItem);
+        QTableWidgetItem *amountItem = new QTableWidgetItem(QString::number(i.value()));
+        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 3, amountItem);
+    }
+
 }
 
 
@@ -652,8 +674,8 @@ void Login::on_PBExport_clicked()
 
 void Login::on_PBImport_clicked()
 {
-    ui->tradetable->clearContents();
-    ui->tradetable->setRowCount(0);
+    // ui->tradetable->clearContents();
+    // ui->tradetable->setRowCount(0);
     QString path = QFileDialog::getOpenFileName(this, "Load JSON", "", "JSON Files (*.json)");
     delete trade;
     QFile file(path);
@@ -665,6 +687,7 @@ void Login::on_PBImport_clicked()
     QByteArray json = file.readAll();
     bool ok;
     trade = new Trade(json,&ok);
+        trade->setLinkedInventory(m_pDisplayingInventory);
     if(!ok){
         QMessageBox::warning(this,"","导入失败，目标库存可能无效");
         return;
