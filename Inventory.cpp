@@ -79,16 +79,23 @@ bool Inventory::fromJsonObject(const QJsonObject& json){
 
 CargoType* Inventory::getCargoType(const QString &name) const
 {
-
-    for(CargoType& type:m_pInventory->keys()){
-        if(type.getName() == name){
-            return &type;
+    for (auto it = m_pInventory->begin(); it != m_pInventory->end(); ++it)
+    {
+        if (it.key().getName() == name)
+        {
+            return const_cast<CargoType*>(&it.key());
         }
     }
     return nullptr;
 }
 int Inventory::getAmount(const QString& name) const {
-    return (*m_pInventory)[*getCargoType(name)];
+    for(CargoType& type:m_pInventory->keys()){
+        QString typeName = type.getName();
+        if(typeName == name){
+            return (*m_pInventory)[type];
+        }
+    }
+    return 0;
 }
 
 bool Inventory::contains(const QString& name) const
@@ -154,7 +161,8 @@ bool Inventory::setId(unsigned int id)
 }
 uint Inventory::constructId()
 {
-    return QUuid::createUuid().toString().toInt();
+    auto uuid = QUuid::createUuid();
+    return uuid.toUInt128();
 }
 uint Inventory::getId() const
 {

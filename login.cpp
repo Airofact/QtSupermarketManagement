@@ -351,8 +351,15 @@ void Login::on_import_2_clicked()
     ui->goodtable->clearContents();
     ui->goodtable->setRowCount(0);
     QString file_name= QFileDialog::getOpenFileName(this, "Load JSON", "", "JSON Files (*.json)");
+    QFile file(file_name);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QMessageBox::warning(this,"","导入失败，请确认文件是否有效");
+        return;
+    }
+    QByteArray json = file.readAll();
     delete m_pDisplayingInventory;
-    m_pDisplayingInventory = new Inventory(Inventory::fromFile(file_name));
+    m_pDisplayingInventory = new Inventory(json);
     trade->setLinkedInventory(m_pDisplayingInventory);
     updateGoodsTable();
     QMessageBox::information(this,"","成功导入");
