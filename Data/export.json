@@ -1,51 +1,5 @@
 {
-    "BookB": {
-        "amount": 100,
-        "cargoType": {
-            "name": "BookB",
-            "price": 24.5,
-            "type": "书"
-        }
-    },
-    "bookA": {
-        "amount": 100,
-        "cargoType": {
-            "name": "bookA",
-            "price": 29.9,
-            "type": "书"
-        }
-    },
-    "id": 3131961357,
-    "烤全羊": {
-        "amount": 1,
-        "cargoType": {
-            "name": "烤全羊",
-            "price": 666,
-            "type": "人类"
-        }
-    },
-    "豪赤的大奋": {
-        "amount": 1919810,
-        "cargoType": {
-            "name": "豪赤的大奋",
-            "price": 114.514,
-            "type": "食品"
-        }
-    },
-    "领头的羊": {
-        "amount": 5,
-        "cargoType": {
-            "name": "领头的羊",
-            "price": 666,
-            "type": "牲畜"
-        }
-    },
-    "鹿乃子的角": {
-        "amount": 3,
-        "cargoType": {
-            "name": "鹿乃子的角",
-            "price": 500,
-            "type": "补品"
-        }
-    }
+    "linkedInventory": 0,
+    "tradeList": [
+    ]
 }

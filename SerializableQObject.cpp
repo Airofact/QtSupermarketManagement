@@ -3,7 +3,8 @@
 
 bool SerializableQObject::serialize(QByteArray& json) const{
     QJsonObject jsonObj;
-    this->toJsonObject(jsonObj);
+    if(!this->toJsonObject(jsonObj))
+        return false;
     QJsonDocument jsonDoc(jsonObj);
     json = jsonDoc.toJson();
     return true;

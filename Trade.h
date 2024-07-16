@@ -19,7 +19,7 @@ private:
 public:
     Trade(Inventory *linkedInventory);
     ~Trade();
-    Trade(const QByteArray& json);
+    Trade(const QByteArray& json, bool* ok = nullptr);
     //序列化
     bool toJsonObject(QJsonObject& json) const override;
     //反序列化

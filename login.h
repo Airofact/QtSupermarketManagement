@@ -106,7 +106,7 @@ private slots:
     void hideText();
 
 
-    void updateTable();
+    void updateGoodsTable();
 
     void on_PBAddGood_clicked();
 

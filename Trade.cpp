@@ -16,13 +16,18 @@ Trade::~Trade()
         delete m_pTradeList;
 }
 
-Trade::Trade(const QByteArray &json)
+Trade::Trade(const QByteArray &json,bool* ok)
 {
     m_pTradeList = new std::list<tradeListItem>;
-    this->deserialize(json);
+    bool _ok = this->deserialize(json);
+    if(ok != nullptr)
+        *ok = _ok;
 }
 bool Trade::toJsonObject(QJsonObject &json) const
 {
+    if(m_pLinkedInventory == nullptr)
+        return false;
+    json.insert("linkedInventory",QVariant(m_pLinkedInventory->getId()).toJsonValue());
     QJsonArray list;
     for (const auto &i : *m_pTradeList)
     {
@@ -31,7 +36,6 @@ bool Trade::toJsonObject(QJsonObject &json) const
         QJsonObject inven;
         i.second.toJsonObject(inven);
         obj.insert("inventory", inven);
-        obj.insert("linkedInventory",QVariant(m_pLinkedInventory->getId()).toJsonValue());
         list.append(obj);
     }
     json.insert("tradeList", list);
@@ -49,6 +53,11 @@ Trade Trade::fromFile(const QString &path)
 }
 bool Trade::fromJsonObject(const QJsonObject &json)
 {
+    uint id = json["linkedInventory"].toInt();
+    Inventory* linkedInventory = Inventory::getInstance(id);
+    if(linkedInventory == nullptr)
+        return false;
+    m_pLinkedInventory = linkedInventory;
     QJsonArray list = json["tradeList"].toArray();
     for (const auto &i : list)
     {
@@ -57,11 +66,6 @@ bool Trade::fromJsonObject(const QJsonObject &json)
         Inventory inven;
         inven.fromJsonObject(obj["inventory"].toObject());
         m_pTradeList->push_back(std::make_pair(name, inven));
-        uint id = obj["linkedInventory"].toInt();
-        Inventory* linkedInventory = Inventory::getInstance(id);
-        if(linkedInventory == nullptr)
-            return false;
-        m_pLinkedInventory = linkedInventory;
     }
     return true;
 }

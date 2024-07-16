@@ -314,7 +314,7 @@ void Login::on_editmessage_released()
 
 }
 
-void Login::updateTable(){
+void Login::updateGoodsTable(){
     ui->goodtable->clearContents();
     ui->goodtable->setRowCount(0);
     QHash<CargoType, int>::const_iterator i;
@@ -340,7 +340,7 @@ void Login::on_import_2_clicked()
     delete m_pDisplayingInventory;
     m_pDisplayingInventory = new Inventory(Inventory::fromFile(file_name));
     trade->setLinkedInventory(m_pDisplayingInventory);
-    updateTable();
+    updateGoodsTable();
     QMessageBox::information(this,"","成功导入");
     //ToDo: MessageBox 成功导入
 }
@@ -348,7 +348,7 @@ void Login::on_import_2_clicked()
 
 void Login::on_pushButton_clicked()
 {
-    ui->stackedWidget->setCurrentWidget(ui->page);
+    ui->stackedWidget->setCurrentWidget(ui->addgoodpage);
 }
 
 
@@ -357,7 +357,7 @@ void Login::on_pushButton_2_clicked()
     QMessageBox msg;
     CargoType a(ui->name->text(),(ui->price->text()).toDouble(),ui->type->text());
     m_pDisplayingInventory->addGoods(a,(ui->amount->text()).toInt());
-    updateTable();
+    updateGoodsTable();
     msg.setText("添加成功");
     msg.exec();
     //ToDo: MessageBox 添加成功
@@ -378,7 +378,7 @@ void Login::on_pushButton_5_clicked()
 
 void Login::on_pushButton_6_clicked()
 {
-    ui->stackedWidget->setCurrentWidget(ui->page_3);
+    ui->stackedWidget->setCurrentWidget(ui->addtradepage);
     ui->lineEditAmount->clear();
     ui->lineEditCustomer->clear();
     ui->lineEditName->clear();
@@ -430,7 +430,7 @@ void Login::on_pushButton_7_clicked()
     double price =!(ui->editprice->text()).toDouble() ? m_pDisplayingInventory->getCargoType(name)->getPrice() : (ui->editprice->text()).toDouble();
     int amount = !(ui->editamount->text()).toInt() ? m_pDisplayingInventory->getAmount(name) : (ui->editprice->text()).toDouble();
     m_pDisplayingInventory->editGoods(name, price, amount);
-    updateTable();
+    updateGoodsTable();
     msg.setText("修改成功");
     msg.exec();
     //ToDo: MessageBox 修改成功
@@ -449,7 +449,7 @@ void Login::on_pushButton_10_clicked()
         return;
     }
     m_pDisplayingInventory->removeGoods(name,(ui->editamount->text()).toInt());
-    updateTable();
+    updateGoodsTable();
     msg.setText("删除成功");
     msg.exec();
     //ToDo: MessageBox 删除成功
@@ -625,7 +625,7 @@ void Login::on_lineEditSearch_textChanged(const QString &arg1)
 void Login::on_PBUpdate_clicked()
 {
     QMessageBox msg;
-    updateTable();
+    updateGoodsTable();
     msg.setText("更新成功");
     msg.exec();
     //ToDo: MessageBox 更新成功
@@ -633,18 +633,44 @@ void Login::on_PBUpdate_clicked()
 
 void Login::on_PBExport_clicked()
 {
-    QMessageBox msg;
-    msg.setText("导出成功");
-    msg.exec();
+    QByteArray data;
+    QString path=QFileDialog::getSaveFileName(this, "Save JSON", "", "JSON Files (*.json)");
+    if(path.isEmpty())
+    {
+        QMessageBox::warning(this,"","导出失败");
+        return;
+    }
+    QFile file(path);
+    file.open(QIODevice::WriteOnly);
+    trade->serialize(data);
+    file.write(data);
+    file.close();
+    QMessageBox::information(this,"","导出成功");
     //ToDo: MessageBox 导出成功
 }
 
 
 void Login::on_PBImport_clicked()
 {
-    QMessageBox msg;
-    msg.setText("导入成功");
-    msg.exec();
+    ui->tradetable->clearContents();
+    ui->tradetable->setRowCount(0);
+    QString path = QFileDialog::getOpenFileName(this, "Load JSON", "", "JSON Files (*.json)");
+    delete trade;
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QMessageBox::warning(this,"","导入失败，请确认文件是否有效");
+        return;
+    }
+    QByteArray json = file.readAll();
+    bool ok;
+    trade = new Trade(json,&ok);
+    if(!ok){
+        QMessageBox::warning(this,"","导入失败，目标库存可能无效");
+        return;
+    }
+    updateTradeTable();
+    QMessageBox::information(this,"","导入成功");
     //ToDo: MessageBox 导入成功
 }
 
