@@ -533,6 +533,16 @@ void Login::on_PBAddGood_clicked()
     QString goodsName = ui->lineEditName->text();
     int amount = ui->lineEditAmount->text().toInt();
 
+    if(!m_pDisplayingInventory->contains(goodsName))
+    {
+        QMessageBox::warning(this,"","无法找到该商品");
+        return;
+    }
+    if(amount>m_pDisplayingInventory->getAmount(goodsName)){
+        QMessageBox::warning(this,"","库存不足");
+        return;
+    }
+
     CargoType* goods = m_pDisplayingInventory->getCargoType(goodsName);
 
     if(!trade->getTradeListItem(name)){
@@ -589,11 +599,11 @@ void Login::on_PBConfirm_clicked()
 
 void Login::on_tradetable_itemDoubleClicked(QTableWidgetItem *item)
 {
-    int row=ui->tradetable->currentRow();
-    QTableWidgetItem* customerItem = ui->tradetable->item(row, 0);
-    QTableWidgetItem* goodsItem = ui->tradetable->item(row, 1);
-    trade->getTradeListItem(customerItem->text())->second.removeGoods(goodsItem->text());
-    updateTradeTable();
+    // int row=ui->tradetable->currentRow();
+    // QTableWidgetItem* customerItem = ui->tradetable->item(row, 0);
+    // QTableWidgetItem* goodsItem = ui->tradetable->item(row, 1);
+    // trade->getTradeListItem(customerItem->text())->second.removeGoods(goodsItem->text());
+    // updateTradeTable();
 
 }
 
@@ -674,4 +684,28 @@ void Login::on_PBImport_clicked()
     //ToDo: MessageBox 导入成功
 }
 
+
+
+void Login::on_tradetable_cellClicked(int row, int column)
+{
+    Q_UNUSED(row)
+    Q_UNUSED(column)
+}
+
+
+void Login::on_tradetable_customContextMenuRequested(const QPoint &pos)
+{
+    QTableWidgetItem* item = ui->tradetable->itemAt(pos);
+    int row = item->row();
+    QMenu *menu = new QMenu(this);
+    QAction *deleteAction = new QAction("删除", this);
+    menu->addAction(deleteAction);
+    connect(deleteAction, &QAction::triggered, this, [=](){
+        QTableWidgetItem* customerItem = ui->tradetable->item(row, 0);
+        QTableWidgetItem* goodsItem = ui->tradetable->item(row, 1);
+        trade->getTradeListItem(customerItem->text())->second.removeGoods(goodsItem->text());
+        updateTradeTable();
+    });
+    menu->exec(QCursor::pos());
+}
 

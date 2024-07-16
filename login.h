@@ -132,6 +132,10 @@ private slots:
     void on_PBImport_clicked();
 
 
+    void on_tradetable_cellClicked(int row, int column);
+
+    void on_tradetable_customContextMenuRequested(const QPoint &pos);
+
 private:
     Ui::Login *ui;
     QPixmap pixl;

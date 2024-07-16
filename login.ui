@@ -22,7 +22,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>9</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="loginpage">
        <widget class="QLabel" name="loginright">
@@ -1479,7 +1479,11 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_34">
            <item>
-            <widget class="QTableWidget" name="tradetable"/>
+            <widget class="QTableWidget" name="tradetable">
+             <property name="contextMenuPolicy">
+              <enum>Qt::CustomContextMenu</enum>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
